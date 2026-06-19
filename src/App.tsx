@@ -679,6 +679,110 @@ const InteractiveDisciplines: React.FC = () => {
   );
 };
 
+const getOptimizedVideoUrl = (url: string) => {
+  if (!url) return '';
+  if (url.includes('res.cloudinary.com')) {
+    if (url.includes('/upload/f_auto') || url.includes('/upload/q_auto') || url.includes('/upload/c_')) {
+      return url;
+    }
+    return url.replace('/video/upload/', '/video/upload/f_auto,q_auto/');
+  }
+  return url;
+};
+
+const getVideoPosterUrl = (url: string) => {
+  if (!url) return undefined;
+  if (url.includes('res.cloudinary.com')) {
+    return url
+      .replace('/video/upload/', '/video/upload/f_auto,q_auto,so_auto/')
+      .replace(/\.mp4$/i, '.jpg');
+  }
+  return undefined;
+};
+
+interface MotionCardProps {
+  item: MotionItem;
+  index: number;
+  onClick: () => void;
+  isPortrait?: boolean;
+}
+
+const MotionCard: React.FC<MotionCardProps> = ({ item, index, onClick, isPortrait = false }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (!videoRef.current) return;
+    if (isHovered) {
+      videoRef.current.play().catch((err) => {
+        console.log("Play interrupted or failed:", err);
+      });
+    } else {
+      videoRef.current.pause();
+    }
+  }, [isHovered]);
+
+  const posterUrl = getVideoPosterUrl(item.videoUrl);
+  const optimizedVideoUrl = getOptimizedVideoUrl(item.videoUrl);
+
+  return (
+    <motion.div
+      id={isPortrait ? `portrait-motion-card-${item.id}` : `motion-card-${item.id}`}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      whileHover={{ scale: 1.03, rotate: index % 2 === 0 ? 1 : -1 }}
+      transition={{ type: "spring", stiffness: 220, damping: 18 }}
+      onClick={onClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="group cursor-pointer flex flex-col gap-4 relative select-none"
+    >
+      <div className={`w-full ${isPortrait ? 'aspect-[9/16]' : 'aspect-[16/9]'} bg-zinc-950 border border-white/10 rounded-2xl overflow-hidden relative shadow-[0_12px_40px_rgba(0,0,0,0.6)] group-hover:border-[#eca501]/40 transition-[border-color] duration-300`}>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 z-10 opacity-70 group-hover:opacity-40 transition-opacity duration-300 pointer-events-none" />
+        
+        <video
+          ref={videoRef}
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          poster={posterUrl}
+          className="w-full h-full object-cover z-0 pointer-events-none scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
+        >
+          <source src={optimizedVideoUrl} type="video/mp4" />
+        </video>
+
+        <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
+          <div className={`${isPortrait ? 'w-12 h-12' : 'w-14 h-14'} rounded-full bg-[#eca501] text-black flex items-center justify-center shadow-lg group-hover:opacity-100 group-hover:scale-110 lg:opacity-0 transition-all duration-300`}>
+            <Play size={isPortrait ? 18 : 20} fill="currentColor" className="ml-1 text-black" />
+          </div>
+        </div>
+      </div>
+
+      {isPortrait ? (
+        <div className="px-1 flex flex-col gap-1 text-left">
+          <h4 className="text-white uppercase font-display font-medium text-sm tracking-wide group-hover:text-[#eca501] transition-colors duration-200 truncate">
+            {item.title}
+          </h4>
+          <p className="text-zinc-500 text-[10px] font-mono leading-normal line-clamp-2 mt-0.5">
+            {item.description}
+          </p>
+        </div>
+      ) : (
+        <div className="px-1 flex flex-col gap-1.5 text-left">
+          <h3 className="text-white uppercase font-display font-medium text-xl tracking-wide group-hover:text-[#eca501] transition-colors duration-200">
+            {item.title}
+          </h3>
+          <p className="text-zinc-400 text-xs sm:text-sm font-mono leading-relaxed mt-1">
+            {item.description}
+          </p>
+        </div>
+      )}
+    </motion.div>
+  );
+};
+
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
@@ -1002,8 +1106,8 @@ export default function App() {
                   poster={aboutLandingHero}
                   className="w-full h-full object-cover max-w-full block select-none pointer-events-none opacity-80"
                 >
-                  <source src="https://res.cloudinary.com/dqjxpupx7/video/upload/v1/kling_20260618_VIDEO__Cyberpunk_1425_0_auizto.mp4" type="video/mp4" />
-                  <source src="https://res.cloudinary.com/dqjxpupx7/video/upload/kling_20260618_VIDEO__Cyberpunk_1425_0_auizto.mp4" type="video/mp4" />
+                  <source src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/v1/kling_20260618_VIDEO__Cyberpunk_1425_0_auizto.mp4")} type="video/mp4" />
+                  <source src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/kling_20260618_VIDEO__Cyberpunk_1425_0_auizto.mp4")} type="video/mp4" />
                 </video>
               </div>
 
@@ -1253,7 +1357,7 @@ export default function App() {
                   playsInline
                   className="w-full h-full object-cover max-w-full block select-none pointer-events-none opacity-100"
                 >
-                  <source src="https://res.cloudinary.com/dqjxpupx7/video/upload/v1781819816/kling_20260619_VIDEO_Two_futuri_1482_0_es8z02.mp4" type="video/mp4" />
+                  <source src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/v1781819816/kling_20260619_VIDEO_Two_futuri_1482_0_es8z02.mp4")} type="video/mp4" />
                 </video>
                 {/* Micro-faint gradient overlay just for text contrast */}
                 <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/50 via-black/15 to-transparent pointer-events-none z-0" />
@@ -1277,59 +1381,14 @@ export default function App() {
             {/* Grid of 12 Boxes - 3 on each line on Desktop (Shifted downwards with extra top padding) */}
             <section id="motion-grid-section" className="w-full pt-16 sm:pt-24 pb-32 px-6 sm:px-12 md:px-24 relative z-10 flex flex-col items-center">
               <div className="max-w-7xl w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10">
-                {MOTION_ITEMS.map((item, index) => {
-                  return (
-                    <motion.div
-                      id={`motion-card-${item.id}`}
-                      key={item.id}
-                      initial={{ opacity: 0, y: 40 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true, margin: "-100px" }}
-                      whileHover={{ scale: 1.03, rotate: index % 2 === 0 ? 1 : -1 }}
-                      transition={{ type: "spring", stiffness: 220, damping: 18 }}
-                      onClick={() => setSelectedMotionItem(item)}
-                      className="group cursor-pointer flex flex-col gap-4 relative select-none"
-                    >
-                      {/* Box Frame element with 16:9 Landscape Aspect Ratio */}
-                      <div className="w-full aspect-[16/9] bg-zinc-950 border border-white/10 rounded-2xl overflow-hidden relative shadow-[0_12px_40px_rgba(0,0,0,0.6)] group-hover:border-[#eca501]/40 transition-[border-color] duration-300">
-                        {/* Elegant overlay blur/vignette */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 z-10 opacity-70 group-hover:opacity-40 transition-opacity duration-300 pointer-events-none" />
-                        
-                        {/* Video Element (Muted Auto-play preview or static image overlay block) */}
-                        <video
-                          id={`motion-preview-video-${item.id}`}
-                          autoPlay
-                          loop
-                          muted
-                          playsInline
-                          controls={false}
-                          className="w-full h-full object-cover z-0 pointer-events-none scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
-                        >
-                          <source src={item.videoUrl} type="video/mp4" />
-                        </video>
- 
-                        {/* Interactive Spark/Play indicator overlay */}
-                        <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
-                          <div
-                            className="w-14 h-14 rounded-full bg-[#eca501] text-black flex items-center justify-center shadow-lg group-hover:opacity-100 group-hover:scale-110 lg:opacity-0 transition-all duration-300"
-                          >
-                            <Play size={20} fill="currentColor" className="ml-1 text-black" />
-                          </div>
-                        </div>
-                      </div>
- 
-                      {/* Info label bottom */}
-                      <div className="px-1 flex flex-col gap-1.5 text-left">
-                        <h3 className="text-white uppercase font-display font-medium text-xl tracking-wide group-hover:text-[#eca501] transition-colors duration-200">
-                          {item.title}
-                        </h3>
-                        <p className="text-zinc-400 text-xs sm:text-sm font-mono leading-relaxed mt-1">
-                          {item.description}
-                        </p>
-                      </div>
-                    </motion.div>
-                  );
-                })}
+                {MOTION_ITEMS.map((item, index) => (
+                  <MotionCard
+                    key={item.id}
+                    item={item}
+                    index={index}
+                    onClick={() => setSelectedMotionItem(item)}
+                  />
+                ))}
               </div>
 
               {/* PORTRAIT VIDEOS SECTION - Five 1080x1920 (9:16) portrait video boxes */}
@@ -1339,59 +1398,15 @@ export default function App() {
                 </span>
                 
                 <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 sm:gap-8">
-                  {PORTRAIT_MOTION_ITEMS.map((item, index) => {
-                    return (
-                      <motion.div
-                        id={`portrait-motion-card-${item.id}`}
-                        key={item.id}
-                        initial={{ opacity: 0, y: 40 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                        whileHover={{ scale: 1.04, rotate: index % 2 === 0 ? 0.5 : -0.5 }}
-                        transition={{ type: "spring", stiffness: 220, damping: 18 }}
-                        onClick={() => setSelectedMotionItem(item)}
-                        className="group cursor-pointer flex flex-col gap-3 relative select-none"
-                      >
-                        {/* Portrait Aspect Ratio [9/16] */}
-                        <div className="w-full aspect-[9/16] bg-zinc-950 border border-white/10 rounded-2xl overflow-hidden relative shadow-[0_12px_40px_rgba(0,0,0,0.6)] group-hover:border-[#eca501]/40 transition-[border-color] duration-300">
-                          {/* Elegant overlay blur/vignette */}
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 z-10 opacity-70 group-hover:opacity-40 transition-opacity duration-300 pointer-events-none" />
-                          
-                          {/* Video Element */}
-                          <video
-                            id={`portrait-preview-video-${item.id}`}
-                            autoPlay
-                            loop
-                            muted
-                            playsInline
-                            controls={false}
-                            className="w-full h-full object-cover z-0 pointer-events-none scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
-                          >
-                            <source src={item.videoUrl} type="video/mp4" />
-                          </video>
-
-                          {/* Interactive Play Indicator Overlay */}
-                          <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
-                            <div
-                              className="w-12 h-12 rounded-full bg-[#eca501] text-black flex items-center justify-center shadow-lg group-hover:opacity-100 group-hover:scale-110 lg:opacity-0 transition-all duration-300"
-                            >
-                              <Play size={18} fill="currentColor" className="ml-1 text-black" />
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Info details beneath */}
-                        <div className="px-1 flex flex-col gap-1 text-left">
-                          <h4 className="text-white uppercase font-display font-medium text-sm tracking-wide group-hover:text-[#eca501] transition-colors duration-200 truncate">
-                            {item.title}
-                          </h4>
-                          <p className="text-zinc-500 text-[10px] font-mono leading-normal line-clamp-2 mt-0.5">
-                            {item.description}
-                          </p>
-                        </div>
-                      </motion.div>
-                    );
-                  })}
+                  {PORTRAIT_MOTION_ITEMS.map((item, index) => (
+                    <MotionCard
+                      key={item.id}
+                      item={item}
+                      index={index}
+                      onClick={() => setSelectedMotionItem(item)}
+                      isPortrait={true}
+                    />
+                  ))}
                 </div>
               </div>
  
@@ -1571,7 +1586,7 @@ export default function App() {
                   playsInline
                   className="absolute inset-0 h-full w-full object-cover opacity-100"
                 >
-                  <source src="https://res.cloudinary.com/dqjxpupx7/video/upload/v1781784482/kling_20260618_VIDEO_Static_cam_1419_0_ozbfdr.mp4" type="video/mp4" />
+                  <source src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/v1781784482/kling_20260618_VIDEO_Static_cam_1419_0_ozbfdr.mp4")} type="video/mp4" />
                 </video>
 
                 {/* Giant looping scrolling background text */}
@@ -1750,8 +1765,8 @@ export default function App() {
                   className="w-full h-auto max-h-[120px] sm:max-h-[160px] md:max-h-[200px] object-contain block bg-black"
                   style={{ pointerEvents: 'none' }}
                 >
-                  <source src="https://res.cloudinary.com/dqjxpupx7/video/upload/role_vtobve.mp4" type="video/mp4" />
-                  <source src="https://res.cloudinary.com/dqjxpupx7/video/upload/v1/role_vtobve.mp4" type="video/mp4" />
+                  <source src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/role_vtobve.mp4")} type="video/mp4" />
+                  <source src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/v1/role_vtobve.mp4")} type="video/mp4" />
                 </video>
               </div>
             </motion.section>
@@ -1926,7 +1941,7 @@ export default function App() {
                       loop
                       muted
                       autoPlay
-                      src="https://res.cloudinary.com/dqjxpupx7/video/upload/v1781780247/Unity_Cup_Animation_h8zcxg.mp4"
+                      src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/v1781780247/Unity_Cup_Animation_h8zcxg.mp4")}
                     />
                   </motion.div>
                 </div>
@@ -2047,7 +2062,7 @@ export default function App() {
                 autoPlay
                 loop
                 controls
-                src={selectedMotionItem.videoUrl}
+                src={getOptimizedVideoUrl(selectedMotionItem.videoUrl)}
                 className="w-full h-full object-cover rounded-2xl"
                 style={{ outline: "none" }}
               />
