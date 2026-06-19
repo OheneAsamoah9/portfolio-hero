@@ -1,0 +1,6 @@
+{
+  "name": "Portfolio Hero",
+  "description": "Recreated modern portfolio hero section for Victor Ohene Asamoah with a pure black background.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
