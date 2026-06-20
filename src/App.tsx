@@ -302,7 +302,7 @@ const InteractiveBox: React.FC<{ item: PortfolioItem; index: number; className?:
         zIndex: isHovered ? 30 : 1,
         ...style
       }}
-      className={`relative aspect-[1080/1350] overflow-hidden bg-zinc-950 border border-white/10 rounded-2xl cursor-pointer select-none shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:border-[#eca501]/50 transition-[border-color,box-shadow,transform] duration-300 group ${className || ""}`}
+      className={`relative aspect-[1080/1350] overflow-hidden bg-white border border-zinc-200 rounded-2xl cursor-pointer select-none shadow-[0_8px_24px_rgba(0,0,0,0.06)] hover:border-[#A855F7]/50 transition-[border-color,box-shadow,transform] duration-300 group ${className || ""}`}
     >
       {/* Visual Image / Artwork Design - No text or details */}
       <motion.img
@@ -315,7 +315,7 @@ const InteractiveBox: React.FC<{ item: PortfolioItem; index: number; className?:
           filter: isHovered ? "brightness(1) contrast(1.02)" : "brightness(0.95)",
         }}
         transition={{ duration: 0.3, ease: "easeOut" }}
-        className="w-full h-full object-contain bg-zinc-950 pointer-events-none"
+        className="w-full h-full object-contain bg-white pointer-events-none"
       />
 
       {/* Elegant minimalist glowing border on hover */}
@@ -325,7 +325,7 @@ const InteractiveBox: React.FC<{ item: PortfolioItem; index: number; className?:
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.7 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 border-2 border-[#eca501] rounded-[inherit] pointer-events-none z-20"
+            className="absolute inset-0 border-2 border-[#A855F7] rounded-[inherit] pointer-events-none z-20"
           />
         )}
       </AnimatePresence>
@@ -378,13 +378,13 @@ const ContactForm: React.FC = () => {
       <motion.div 
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="w-full bg-zinc-950 border border-white/10 rounded-2xl p-8 sm:p-12 flex flex-col items-center justify-center text-center shadow-[0_24px_50px_rgba(0,0,0,0.6)] min-h-[400px]"
+        className="w-full bg-white border border-zinc-250 rounded-2xl p-8 sm:p-12 flex flex-col items-center justify-center text-center shadow-[0_24px_50px_rgba(0,0,0,0.06)] min-h-[400px]"
       >
-        <div className="w-16 h-16 bg-[#eca501]/10 border border-[#eca501]/30 rounded-full flex items-center justify-center mb-6 text-[#eca501]">
+        <div className="w-16 h-16 bg-[#A855F7]/10 border border-[#A855F7]/30 rounded-full flex items-center justify-center mb-6 text-[#A855F7]">
           <CheckCircle2 size={32} />
         </div>
-        <h3 className="text-white font-display text-2xl font-bold uppercase tracking-wide">MESSAGE DISPATCHED!</h3>
-        <p className="text-zinc-400 text-sm font-mono leading-relaxed mt-4 max-w-sm">
+        <h3 className="text-zinc-900 font-display text-2xl font-bold uppercase tracking-wide">MESSAGE DISPATCHED!</h3>
+        <p className="text-zinc-600 text-sm font-mono leading-relaxed mt-4 max-w-sm">
           Thank you for reaching out, {name}. Your inquiry has successfully bypassed transit filters. Victor will address this shortly.
         </p>
         <button
@@ -394,7 +394,7 @@ const ContactForm: React.FC = () => {
             setEmail("");
             setMessage("");
           }}
-          className="mt-8 px-6 py-2.5 rounded-full border border-[#eca501]/20 bg-[#eca501]/5 text-[#eca501] hover:bg-[#eca501] hover:text-black hover:border-transparent transition-all duration-300 font-sans text-xs font-bold tracking-widest uppercase cursor-pointer"
+          className="mt-8 px-6 py-2.5 rounded-full border border-[#A855F7]/20 bg-[#A855F7]/5 text-[#A855F7] hover:bg-[#A855F7] hover:text-white hover:border-transparent transition-all duration-300 font-sans text-xs font-bold tracking-widest uppercase cursor-pointer"
         >
           SEND ANOTHER MESSAGE
         </button>
@@ -408,52 +408,52 @@ const ContactForm: React.FC = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.1 }}
-      className="w-full bg-zinc-950/40 border border-white/5 rounded-2xl p-6 sm:p-10 backdrop-blur-md shadow-[0_24px_50px_rgba(0,0,0,0.5)] flex flex-col gap-6"
+      className="w-full bg-white border border-zinc-200/80 rounded-2xl p-6 sm:p-10 backdrop-blur-md shadow-[0_24px_50px_rgba(0,0,0,0.04)] flex flex-col gap-6"
     >
       <div className="flex flex-col gap-2">
-        <label className="text-[10px] font-mono tracking-widest text-zinc-400 uppercase font-semibold">YOUR NAME :</label>
+        <label className="text-[10px] font-mono tracking-widest text-zinc-500 uppercase font-bold">YOUR NAME :</label>
         <input 
           type="text" 
           required
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="e.g. Osei Dankwa"
-          className="w-full bg-zinc-900/60 border border-white/5 focus:border-[#eca501]/30 hover:border-white/10 text-white rounded-xl py-3.5 px-4 font-sans text-sm outline-none transition-all placeholder:text-zinc-600 shadow-[inner_0_2px_4px_rgba(0,0,0,0.4)]"
+          className="w-full bg-zinc-50 border border-zinc-200 focus:border-[#A855F7]/50 hover:border-zinc-300 text-zinc-900 rounded-xl py-3.5 px-4 font-sans text-sm outline-none transition-all placeholder:text-zinc-400"
         />
       </div>
 
       <div className="flex flex-col gap-2">
-        <label className="text-[10px] font-mono tracking-widest text-zinc-400 uppercase font-semibold">EMAIL ADDRESS :</label>
+        <label className="text-[10px] font-mono tracking-widest text-zinc-500 uppercase font-bold">EMAIL ADDRESS :</label>
         <input 
           type="email" 
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="e.g. client@agency.com"
-          className="w-full bg-zinc-900/60 border border-white/5 focus:border-[#eca501]/30 hover:border-white/10 text-white rounded-xl py-3.5 px-4 font-sans text-sm outline-none transition-all placeholder:text-zinc-600 shadow-[inner_0_2px_4px_rgba(0,0,0,0.4)]"
+          className="w-full bg-zinc-50 border border-zinc-200 focus:border-[#A855F7]/50 hover:border-zinc-300 text-zinc-900 rounded-xl py-3.5 px-4 font-sans text-sm outline-none transition-all placeholder:text-zinc-400"
         />
       </div>
 
       <div className="flex flex-col gap-2">
-        <label className="text-[10px] font-mono tracking-widest text-zinc-400 uppercase font-semibold">MESSAGE PARAMS :</label>
+        <label className="text-[10px] font-mono tracking-widest text-zinc-500 uppercase font-bold">MESSAGE PARAMS :</label>
         <textarea 
           required
           rows={5}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Describe your creative requirements, budget and deadlines..."
-          className="w-full bg-zinc-900/60 border border-white/5 focus:border-[#eca501]/30 hover:border-white/10 text-white rounded-xl py-3.5 px-4 font-sans text-sm outline-none transition-all placeholder:text-zinc-600 shadow-[inner_0_2px_4px_rgba(0,0,0,0.4)] resize-none font-sans"
+          className="w-full bg-zinc-50 border border-zinc-200 focus:border-[#A855F7]/50 hover:border-zinc-300 text-zinc-900 rounded-xl py-3.5 px-4 font-sans text-sm outline-none transition-all placeholder:text-zinc-400 resize-none font-sans"
         />
       </div>
 
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full bg-[#eca501] hover:bg-[#eca501]/90 disabled:bg-zinc-800 disabled:text-zinc-600 text-black font-sans text-xs font-bold tracking-widest uppercase py-4 rounded-xl shadow-lg transition-all duration-300 hover:scale-[1.01] flex items-center justify-center gap-2 cursor-pointer mt-2"
+        className="w-full bg-[#A855F7] hover:bg-[#A855F7]/90 disabled:bg-zinc-200 disabled:text-zinc-400 text-white font-sans text-xs font-bold tracking-widest uppercase py-4 rounded-xl shadow-lg transition-all duration-300 hover:scale-[1.01] flex items-center justify-center gap-2 cursor-pointer mt-2"
       >
         {isSubmitting ? (
           <>
-            <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
@@ -498,7 +498,7 @@ const VideoPlaceholder: React.FC = () => {
         {/* Header HUD bar */}
         <div className="flex justify-between items-center mix-blend-difference">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#eca501] animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-[#A855F7] animate-pulse" />
             <span className="text-white tracking-widest uppercase font-bold text-[9px] sm:text-xs">CREATIVE_MOTION_REEL_2026.MP4</span>
           </div>
           <span className="text-zinc-400 text-[8px] sm:text-sm font-semibold">1080p // 60 FPS</span>
@@ -510,8 +510,8 @@ const VideoPlaceholder: React.FC = () => {
             id="video-play-btn"
             animate={{
               scale: isHovered ? [1, 1.15, 1.1] : 1,
-              backgroundColor: isHovered ? "rgba(236, 165, 1, 1)" : "rgba(0, 0, 0, 0.6)",
-              borderColor: isHovered ? "rgba(236, 165, 1, 0.4)" : "rgba(255, 255, 255, 0.15)"
+              backgroundColor: isHovered ? "rgba(168, 85, 247, 1)" : "rgba(0, 0, 0, 0.6)",
+              borderColor: isHovered ? "rgba(168, 85, 247, 0.4)" : "rgba(255, 255, 255, 0.15)"
             }}
             transition={{
               type: "spring",
@@ -525,7 +525,7 @@ const VideoPlaceholder: React.FC = () => {
                 initial={{ scale: 0.8, opacity: 0.5 }}
                 animate={{ scale: 1.4, opacity: 0 }}
                 transition={{ repeat: Infinity, duration: 1.5, ease: "easeOut" }}
-                className="absolute inset-0 rounded-full bg-[#eca501]/40"
+                className="absolute inset-0 rounded-full bg-[#A855F7]/40"
               />
             )}
             <svg
@@ -545,7 +545,7 @@ const VideoPlaceholder: React.FC = () => {
             <motion.div
               animate={{ width: isHovered ? "65%" : "30%" }}
               transition={{ duration: 0.8, ease: "easeOut" }}
-              className="absolute left-0 top-0 bottom-0 bg-[#eca501]"
+              className="absolute left-0 top-0 bottom-0 bg-[#A855F7]"
             />
           </div>
           {/* Timeline details */}
@@ -555,7 +555,7 @@ const VideoPlaceholder: React.FC = () => {
               <span className="hidden sm:inline">VOL: 100%</span>
             </div>
             <div className="flex items-center gap-1.5 font-bold text-white text-[9px] sm:text-xs">
-              <span className="text-[#eca501]">00:42</span> / <span>01:30</span>
+              <span className="text-[#A855F7]">00:42</span> / <span>01:30</span>
             </div>
           </div>
         </div>
@@ -569,13 +569,13 @@ const VideoPlaceholder: React.FC = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.8 }}
               exit={{ opacity: 0 }}
-              className="absolute inset-0 border-2 border-[#eca501] rounded-[inherit] pointer-events-none z-20"
+              className="absolute inset-0 border-2 border-[#A855F7] rounded-[inherit] pointer-events-none z-20"
             />
             <motion.div
               initial={{ y: "-100%" }}
               animate={{ y: "200%" }}
               transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
-              className="absolute left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#eca501]/85 to-transparent z-10 pointer-events-none"
+              className="absolute left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#A855F7]/85 to-transparent z-10 pointer-events-none"
             />
           </>
         )}
@@ -585,9 +585,8 @@ const VideoPlaceholder: React.FC = () => {
 };
 
 // Interactive Design Disciplines List with Raise-up & Highlight Animations
+// Interactive Design Disciplines List scrolling from left to right in one line with dots
 const InteractiveDisciplines: React.FC = () => {
-  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
-
   const disciplines = [
     "Brand Identity",
     "Graphic Design",
@@ -601,101 +600,24 @@ const InteractiveDisciplines: React.FC = () => {
   return (
     <section 
       id="disciplines-section" 
-      className="w-full bg-[#f0a202] py-14 md:py-18 px-6 sm:px-12 border-t border-black/10 relative z-10 flex flex-col items-center overflow-hidden"
+      className="w-full bg-zinc-50 py-8 md:py-10 border-t border-b border-zinc-200/60 relative z-10 flex flex-col items-center overflow-hidden"
     >
-      <div className="max-w-3xl w-full relative z-10 flex flex-col items-center text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.5 }}
-          className="mb-8 md:mb-10"
-        >
-          <h2 className="text-2xl sm:text-3xl md:text-3xl font-display font-black text-black uppercase tracking-tight">
-            Design Disciplines
-          </h2>
-        </motion.div>
-
-        {/* Centered list of disciplines with compact hover highlights */}
-        <div 
-          className="w-full flex flex-col items-center gap-1.5 sm:gap-2.5"
-          onMouseLeave={() => setHoveredIdx(null)}
-        >
-          {disciplines.map((item, idx) => {
-            const isHovered = hoveredIdx === idx;
-            const isAnyHovered = hoveredIdx !== null;
-
-            return (
-              <motion.div
-                id={`discipline-item-${idx}`}
-                key={item}
-                onMouseEnter={() => setHoveredIdx(idx)}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ 
-                  type: "spring",
-                  stiffness: 110,
-                  damping: 15,
-                  delay: idx * 0.04
-                }}
-                animate={{
-                  scale: isHovered ? 1.08 : 1,
-                  y: isHovered ? -4 : 0,
-                }}
-                className="relative py-2 px-8 flex justify-center items-center cursor-pointer select-none rounded-full"
-                style={{ width: "fit-content" }}
-              >
-                {/* Micro-scale faded pill bg behind active list item to prevent it stretching */}
-                <AnimatePresence>
-                  {isHovered && (
-                    <motion.div
-                      layoutId="discipline-bg-glow"
-                      initial={{ scale: 0.92, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 0.09 }}
-                      exit={{ scale: 0.92, opacity: 0 }}
-                      transition={{ type: "spring", stiffness: 450, damping: 28 }}
-                      className="absolute inset-0 bg-black pointer-events-none rounded-full"
-                    />
-                  )}
-                </AnimatePresence>
-
-                {/* Left/Right active accent dots */}
-                <div className="flex items-center gap-3.5 relative select-none">
-                  {isHovered && (
-                    <motion.span
-                      initial={{ scale: 0, opacity: 0, x: -6 }}
-                      animate={{ scale: 1, opacity: 1, x: 0 }}
-                      exit={{ scale: 0, opacity: 0, x: -6 }}
-                      className="w-2 h-2 rounded-full bg-black inline-block"
-                    />
-                  )}
-
-                  <motion.h3
-                    animate={{
-                      opacity: isHovered ? 1 : isAnyHovered ? 0.35 : 0.85,
-                      color: isHovered ? "#000000" : "#18181b",
-                    }}
-                    transition={{
-                      duration: 0.15
-                    }}
-                    className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-display font-extrabold tracking-tight select-none uppercase font-sans text-center transition-colors duration-150"
-                  >
+      <div className="w-full overflow-hidden flex relative">
+        <div className="animate-marquee-ltr-nonpause flex flex-row w-max flex-nowrap items-center gap-0">
+          {[...Array(6)].map((_, listIdx) => (
+            <div key={listIdx} className="flex items-center flex-nowrap whitespace-nowrap">
+              {disciplines.map((item, idx) => (
+                <div key={idx} className="flex items-center flex-nowrap">
+                  <span className="text-lg sm:text-xl md:text-2xl font-display font-black text-zinc-900 tracking-wider uppercase select-none">
                     {item}
-                  </motion.h3>
-
-                  {isHovered && (
-                    <motion.span
-                      initial={{ scale: 0, opacity: 0, x: 6 }}
-                      animate={{ scale: 1, opacity: 1, x: 0 }}
-                      exit={{ scale: 0, opacity: 0, x: 6 }}
-                      className="w-2 h-2 rounded-full bg-black inline-block"
-                    />
-                  )}
+                  </span>
+                  <span className="text-lg sm:text-xl md:text-2xl font-display font-black text-[#A855F7] mx-6 select-none">
+                    •
+                  </span>
                 </div>
-              </motion.div>
-            );
-          })}
+              ))}
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -745,8 +667,8 @@ const MotionCard: React.FC<MotionCardProps> = ({ item, index, onClick, isPortrai
       onClick={onClick}
       className="group cursor-pointer flex flex-col gap-4 relative select-none"
     >
-      <div className={`w-full ${isPortrait ? 'aspect-[9/16]' : 'aspect-[16/9]'} bg-zinc-950 border border-white/10 rounded-2xl overflow-hidden relative shadow-[0_12px_40px_rgba(0,0,0,0.6)] group-hover:border-[#eca501]/40 transition-[border-color] duration-300`}>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 z-10 opacity-70 group-hover:opacity-40 transition-opacity duration-300 pointer-events-none" />
+      <div className={`w-full ${isPortrait ? 'aspect-[9/16]' : 'aspect-[16/9]'} bg-white border border-zinc-200 rounded-2xl overflow-hidden relative shadow-[0_8px_24px_rgba(0,0,0,0.06)] group-hover:border-[#A855F7]/40 transition-[border-color] duration-305`}>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/10 z-10 opacity-70 group-hover:opacity-40 transition-opacity duration-300 pointer-events-none" />
         
         <video
           autoPlay
@@ -761,15 +683,15 @@ const MotionCard: React.FC<MotionCardProps> = ({ item, index, onClick, isPortrai
         </video>
 
         <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
-          <div className={`${isPortrait ? 'w-12 h-12' : 'w-14 h-14'} rounded-full bg-[#eca501] text-black flex items-center justify-center shadow-lg group-hover:opacity-100 group-hover:scale-110 lg:opacity-0 transition-all duration-300`}>
-            <Play size={isPortrait ? 18 : 20} fill="currentColor" className="ml-1 text-black" />
+          <div className={`${isPortrait ? 'w-12 h-12' : 'w-14 h-14'} rounded-full bg-[#A855F7] text-white flex items-center justify-center shadow-lg group-hover:opacity-100 group-hover:scale-110 lg:opacity-0 transition-all duration-300`}>
+            <Play size={isPortrait ? 18 : 20} fill="currentColor" className="ml-1 text-white" />
           </div>
         </div>
       </div>
 
       {isPortrait ? (
         <div className="px-1 flex flex-col gap-1 text-left">
-          <h4 className="text-white uppercase font-display font-medium text-sm tracking-wide group-hover:text-[#eca501] transition-colors duration-200 truncate">
+          <h4 className="text-zinc-800 uppercase font-display font-semibold text-sm tracking-wide group-hover:text-[#A855F7] transition-colors duration-200 truncate">
             {item.title}
           </h4>
           <p className="text-zinc-500 text-[10px] font-mono leading-normal line-clamp-2 mt-0.5">
@@ -778,15 +700,210 @@ const MotionCard: React.FC<MotionCardProps> = ({ item, index, onClick, isPortrai
         </div>
       ) : (
         <div className="px-1 flex flex-col gap-1.5 text-left">
-          <h3 className="text-white uppercase font-display font-medium text-xl tracking-wide group-hover:text-[#eca501] transition-colors duration-200">
+          <h3 className="text-zinc-800 uppercase font-display font-semibold text-xl tracking-wide group-hover:text-[#A855F7] transition-colors duration-200">
             {item.title}
           </h3>
-          <p className="text-zinc-400 text-xs sm:text-sm font-mono leading-relaxed mt-1">
+          <p className="text-zinc-600 text-xs sm:text-sm font-mono leading-relaxed mt-1">
             {item.description}
           </p>
         </div>
       )}
     </motion.div>
+  );
+};
+
+const Footer: React.FC = () => {
+  return (
+    <footer className="w-full bg-[#A855F7] text-white py-16 px-6 sm:px-12 md:px-24 relative z-10">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-10 md:gap-6">
+        
+        {/* Branding/Copyright */}
+        <div className="flex flex-col gap-2">
+          <h3 className="font-display font-black text-xl tracking-tight uppercase">
+            VICTOR OHENE ASAMOAH
+          </h3>
+          <p className="text-xs font-mono tracking-widest text-white/80 uppercase font-bold">
+            © {new Date().getFullYear()} Victor Ohene Asamoah • All rights reserved
+          </p>
+        </div>
+
+        {/* Contact and Social Info */}
+        <div className="flex flex-col sm:flex-row gap-8 sm:gap-16">
+          
+          {/* Contact details */}
+          <div className="flex flex-col gap-2.5">
+            <span className="text-[10px] font-mono tracking-[0.25em] uppercase font-black text-white/70">
+              CONTACT
+            </span>
+            <a href="mailto:asamoahvictor12@gmail.com" className="text-sm font-sans font-semibold hover:underline underline-offset-4 transition-all duration-200 text-white">
+              asamoahvictor12@gmail.com
+            </a>
+          </div>
+
+          {/* Social media links */}
+          <div className="flex flex-col gap-2.5">
+            <span className="text-[10px] font-mono tracking-[0.25em] uppercase font-black text-white/70">
+              FOLLOW
+            </span>
+            <div className="flex gap-4 flex-wrap">
+              <a href="https://www.instagram.com/estudiox_graphics?igsh=bDJqNndjbDJuZndn&utm_source=qr" target="_blank" rel="noopener noreferrer" className="text-sm font-sans font-semibold hover:underline underline-offset-4 transition-all duration-200 text-white uppercase">
+                Instagram
+              </a>
+              <span className="text-white/40 font-mono">•</span>
+              <a href="https://www.linkedin.com/in/asamoah-victor-62831a190" target="_blank" rel="noopener noreferrer" className="text-sm font-sans font-semibold hover:underline underline-offset-4 transition-all duration-200 text-white uppercase">
+                LinkedIn
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </footer>
+  );
+};
+
+const CustomCursor: React.FC = () => {
+  const [position, setPosition] = useState({ x: -100, y: -100 });
+  const [dotTrailPosition, setDotTrailPosition] = useState({ x: -100, y: -100 });
+  const [trailPosition, setTrailPosition] = useState({ x: -100, y: -100 });
+  const [isHovered, setIsHovered] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [isOverNavbar, setIsOverNavbar] = useState(false);
+  const [isOverFooter, setIsOverFooter] = useState(false);
+
+  useEffect(() => {
+    // Add custom cursor class to html element
+    document.documentElement.classList.add("custom-cursor-active");
+
+    const handleMouseMove = (e: MouseEvent) => {
+      setPosition({ x: e.clientX, y: e.clientY });
+      setIsVisible(true);
+      const target = e.target as HTMLElement;
+      setIsOverNavbar(!!(target && target.closest("#main-header")));
+      setIsOverFooter(!!(target && target.closest("footer")));
+    };
+
+    const handleMouseLeave = () => {
+      setIsVisible(false);
+    };
+
+    const handleMouseDown = () => {
+      setIsClicked(true);
+    };
+
+    const handleMouseUp = () => {
+      setIsClicked(false);
+    };
+
+    // Attach listeners to identify hover state over interactive elements
+    const handleMouseOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      setIsOverNavbar(!!(target && target.closest("#main-header")));
+      setIsOverFooter(!!(target && target.closest("footer")));
+      if (
+        target &&
+        (target.tagName === "A" ||
+          target.tagName === "BUTTON" ||
+          target.closest("a") ||
+          target.closest("button") ||
+          target.closest("[role='button']") ||
+          target.classList.contains("cursor-pointer") ||
+          target.closest(".cursor-pointer"))
+      ) {
+        setIsHovered(true);
+      } else {
+        setIsHovered(false);
+      }
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseleave", handleMouseLeave);
+    window.addEventListener("mousedown", handleMouseDown);
+    window.addEventListener("mouseup", handleMouseUp);
+    window.addEventListener("mouseover", handleMouseOver);
+
+    return () => {
+      document.documentElement.classList.remove("custom-cursor-active");
+      window.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseleave", handleMouseLeave);
+      window.removeEventListener("mousedown", handleMouseDown);
+      window.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener("mouseover", handleMouseOver);
+    };
+  }, []);
+
+  // Smooth trail effect for both dot and ring (dot is faster, ring is slower/trails more)
+  useEffect(() => {
+    let animationFrameId: number;
+    
+    const updateTrail = () => {
+      setDotTrailPosition(prev => {
+        const ease = 0.35; // Fast follow
+        const dx = position.x - prev.x;
+        const dy = position.y - prev.y;
+        return {
+          x: prev.x + dx * ease,
+          y: prev.y + dy * ease
+        };
+      });
+
+      setTrailPosition(prev => {
+        const ease = 0.08; // Slower follow
+        const dx = position.x - prev.x;
+        const dy = position.y - prev.y;
+        return {
+          x: prev.x + dx * ease,
+          y: prev.y + dy * ease
+        };
+      });
+
+      animationFrameId = requestAnimationFrame(updateTrail);
+    };
+
+    animationFrameId = requestAnimationFrame(updateTrail);
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [position]);
+
+  if (!isVisible) return null;
+
+  // Custom Cursor color: Purple matching the brand accent, turns black over footer for contrast
+  const cursorColor = isOverFooter ? "#000000" : "#A855F7";
+
+  return (
+    <>
+      {/* Outer Ring with slower lag and dark drop shadow for light backgrounds */}
+      <div
+        className="pointer-events-none fixed z-[9999] rounded-full border-2 transition-transform duration-150 ease-out hidden md:block"
+        style={{
+          left: `${trailPosition.x}px`,
+          top: `${trailPosition.y}px`,
+          width: isHovered ? "60px" : "40px",
+          height: isHovered ? "60px" : "40px",
+          transform: `translate(-50%, -50%) scale(${isClicked ? 0.8 : 1})`,
+          borderColor: cursorColor,
+          opacity: isOverNavbar ? 0 : 0.85,
+          filter: "drop-shadow(0 0 2px rgba(0,0,0,0.4))",
+          transition: "opacity 0.2s ease, transform 0.15s ease-out, width 0.15s ease-out, height 0.15s ease-out"
+        }}
+      />
+      {/* Inner Dot with faster lag and dark drop shadow for light backgrounds */}
+      <div
+        className="pointer-events-none fixed z-[9999] rounded-full transition-transform duration-100 ease-out hidden md:block"
+        style={{
+          left: `${dotTrailPosition.x}px`,
+          top: `${dotTrailPosition.y}px`,
+          width: "14px",
+          height: "14px",
+          transform: `translate(-50%, -50%) scale(${isHovered ? 1.5 : 1})`,
+          backgroundColor: cursorColor,
+          opacity: isOverNavbar ? 0 : 1,
+          filter: "drop-shadow(0 0 2px rgba(0,0,0,0.4))",
+          transition: "opacity 0.2s ease, transform 0.1s ease-out"
+        }}
+      />
+    </>
   );
 };
 
@@ -970,7 +1087,8 @@ export default function App() {
   };
 
   return (
-    <div id="app-container" className="min-h-screen w-full bg-black text-white flex flex-col justify-between selection:bg-white selection:text-black font-sans relative overflow-x-hidden">
+    <div id="app-container" className="min-h-screen w-full bg-white text-zinc-900 flex flex-col justify-between selection:bg-zinc-900 selection:text-white font-sans relative overflow-x-hidden">
+      <CustomCursor />
       
       {/* Navigation Header - Liquid Glass Floating Dock (Shared across tabs) */}
       <header
@@ -1014,7 +1132,7 @@ export default function App() {
                 onMouseEnter={() => setHoveredItem(item)}
                 onMouseLeave={() => setHoveredItem(null)}
                 className={`relative text-[10px] lg:text-[11px] font-semibold tracking-[0.16em] font-sans px-3.5 py-1 rounded-full transition-colors duration-300 whitespace-nowrap ${
-                  isActive ? 'text-[#eca501]' : 'text-stone-300 hover:text-white'
+                  isActive ? 'text-[#eca501] hover:text-[#eca501]' : 'text-stone-300 hover:text-[#eca501]'
                 }`}
               >
                 <span className="relative z-10">{item}</span>
@@ -1037,7 +1155,9 @@ export default function App() {
         <button
           id="mobile-menu-toggle"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="md:hidden text-white hover:text-[#eca501] transition-all duration-200 p-1.5 z-40 relative focus:outline-none cursor-pointer rounded-full hover:bg-white/5 active:scale-95"
+          className={`md:hidden transition-all duration-200 p-1.5 z-50 relative focus:outline-none cursor-pointer rounded-full hover:bg-white/5 active:scale-95 ${
+            isMenuOpen ? 'text-zinc-950 hover:text-[#eca501]' : 'text-white hover:text-[#eca501]'
+          }`}
           aria-label="Toggle Menu"
         >
           {isMenuOpen ? <X size={16} /> : <Menu size={16} />}
@@ -1047,46 +1167,79 @@ export default function App() {
       {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isMenuOpen && (
-          <motion.div
-            id="mobile-navigation-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25, ease: "easeInOut" }}
-            className="fixed inset-0 bg-black z-20 flex flex-col justify-center items-center md:hidden"
-          >
-            <nav id="nav-mobile-list" className="flex flex-col items-center gap-8">
-              {menuItems.map((item, index) => {
-                const isActive = (item === 'HOME' && currentView === 'home') || 
-                                 (item === 'ABOUT ME' && currentView === 'about') ||
-                                 (item === 'MOTION' && currentView === 'motion') ||
-                                 (item === 'CONTACT' && currentView === 'contact');
-                return (
-                  <motion.a
-                    id={`nav-item-mobile-${item.toLowerCase()}`}
-                    key={item}
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 15 }}
-                    transition={{ delay: index * 0.05, duration: 0.3 }}
-                    href={getHref(item)}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      if (item === 'HOME') handleNavigate('home');
-                      else if (item === 'ABOUT ME') handleNavigate('about');
-                      else if (item === 'MOTION') handleNavigate('motion');
-                      else if (item === 'CONTACT') handleNavigate('contact');
-                    }}
-                    className={`text-2xl font-bold tracking-[0.25em] font-display transition-colors duration-200 ${
-                      isActive ? 'text-[#eca501]' : 'text-white hover:text-[#eca501]'
-                    }`}
-                  >
-                    {item}
-                  </motion.a>
-                );
-              })}
-            </nav>
-          </motion.div>
+          <>
+            {/* Backdrop Dimmer */}
+            <motion.div
+              id="mobile-menu-backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsMenuOpen(false)}
+              className="fixed inset-0 bg-black/40 z-20 md:hidden"
+            />
+
+            {/* Shape 1: Black Panel */}
+            <motion.div
+              id="mobile-menu-shape-black"
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="fixed right-0 top-0 w-[280px] sm:w-[320px] h-screen bg-zinc-950 z-30 md:hidden"
+            />
+
+            {/* Shape 2: Purple Panel */}
+            <motion.div
+              id="mobile-menu-shape-purple"
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="fixed right-0 top-0 w-[280px] sm:w-[320px] h-screen bg-[#A855F7] z-31 md:hidden"
+            />
+
+            {/* Shape 3: White Menu Content Panel */}
+            <motion.div
+              id="mobile-menu-content-panel"
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="fixed right-0 top-0 w-[280px] sm:w-[320px] h-screen bg-white z-32 border-l border-zinc-200/50 shadow-2xl flex flex-col justify-start items-start pt-32 px-10 md:hidden"
+            >
+              <nav id="nav-mobile-list" className="flex flex-col items-start gap-8 w-full">
+                {menuItems.map((item, index) => {
+                  const isActive = (item === 'HOME' && currentView === 'home') || 
+                                   (item === 'ABOUT ME' && currentView === 'about') ||
+                                   (item === 'MOTION' && currentView === 'motion') ||
+                                   (item === 'CONTACT' && currentView === 'contact');
+                  return (
+                    <motion.a
+                      id={`nav-item-mobile-${item.toLowerCase()}`}
+                      key={item}
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 15 }}
+                      transition={{ delay: 0.55 + index * 0.05, duration: 0.3 }}
+                      href={getHref(item)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (item === 'HOME') handleNavigate('home');
+                        else if (item === 'ABOUT ME') handleNavigate('about');
+                        else if (item === 'MOTION') handleNavigate('motion');
+                        else if (item === 'CONTACT') handleNavigate('contact');
+                      }}
+                      className={`text-lg font-bold tracking-[0.2em] font-display transition-colors duration-200 ${
+                        isActive ? 'text-[#eca501] hover:text-[#A855F7]' : 'text-zinc-800 hover:text-[#A855F7]'
+                      }`}
+                    >
+                      {item}
+                    </motion.a>
+                  );
+                })}
+              </nav>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
 
@@ -1102,8 +1255,8 @@ export default function App() {
             className="w-full flex-1 flex flex-col"
           >
             {/* Hero Landing of the About Us Page - Displaying the dynamic background video */}
-            <section id="about-landing" className="relative w-full h-screen bg-black flex flex-col justify-end overflow-hidden pb-12 sm:pb-16 md:pb-24 px-6 sm:px-12 md:px-24">
-              <div className="absolute inset-0 w-full h-full z-0 flex items-center justify-center bg-black">
+            <section id="about-landing" className="relative w-full h-screen bg-white flex flex-col justify-end overflow-hidden pb-12 sm:pb-16 md:pb-24 px-6 sm:px-12 md:px-24">
+              <div className="absolute inset-0 w-full h-full z-0 flex items-center justify-center bg-white">
                 <video
                   id="about-bg-video-player"
                   autoPlay
@@ -1111,7 +1264,7 @@ export default function App() {
                   muted
                   playsInline
                   poster={aboutLandingHero}
-                  className="w-full h-full object-cover max-w-full block select-none pointer-events-none opacity-80"
+                  className="w-full h-full object-cover max-w-full block select-none pointer-events-none opacity-100"
                 >
                   <source src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/v1/kling_20260618_VIDEO__Cyberpunk_1425_0_auizto.mp4")} type="video/mp4" />
                   <source src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/kling_20260618_VIDEO__Cyberpunk_1425_0_auizto.mp4")} type="video/mp4" />
@@ -1148,16 +1301,16 @@ export default function App() {
                 </motion.div>
               </div>
 
-              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 z-10 font-mono text-[9px] tracking-widest text-zinc-400 select-none animate-bounce">
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 z-10 font-mono text-[9px] tracking-widest text-zinc-500 select-none animate-bounce">
                 <span>SCROLL DOWN</span>
-                <svg className="w-4 h-4 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                 </svg>
               </div>
             </section>
 
             {/* Solid background section with About details */}
-            <section id="about-details" className="w-full bg-zinc-950 py-24 px-6 sm:px-12 md:px-24 relative z-10 flex flex-col items-center border-t border-zinc-900">
+            <section id="about-details" className="w-full bg-zinc-50 py-24 px-6 sm:px-12 md:px-24 relative z-10 flex flex-col items-center border-t border-zinc-150">
               <div id="about-inner" className="max-w-5xl w-full flex flex-col gap-16 lg:gap-20 items-start">
                 <motion.div 
                   initial={{ opacity: 0, y: 35 }}
@@ -1166,10 +1319,10 @@ export default function App() {
                   transition={{ duration: 0.7 }}
                   className="w-full"
                 >
-                  <span className="text-[10px] font-mono tracking-[0.25em] text-[#eca501] uppercase font-bold">
+                  <span className="text-[10px] font-mono tracking-[0.25em] text-[#A855F7] uppercase font-bold">
                     ABOUT / CREATIVE DIRECTION
                   </span>
-                  <h2 className="text-white text-3xl sm:text-4xl font-display font-black tracking-tight uppercase mt-3 leading-tight flex flex-wrap gap-x-3">
+                  <h2 className="text-zinc-900 text-3xl sm:text-4xl font-display font-black tracking-tight uppercase mt-3 leading-tight flex flex-wrap gap-x-3">
                     {"VICTOR OHENE ASAMOAH".split(" ").map((word, wIdx) => (
                       <span key={wIdx} className="inline-block whitespace-nowrap">
                         {word.split("").map((char, cIdx) => (
@@ -1177,9 +1330,9 @@ export default function App() {
                             id={`about-char-${wIdx}-${cIdx}`}
                             key={`${wIdx}-${cIdx}`}
                             initial={{ opacity: 1, y: 0 }}
-                            whileHover={{ scale: 1.15, color: "#eca501" }}
+                            whileHover={{ scale: 1.15, color: "#A855F7" }}
                             transition={{ type: "spring", stiffness: 300, damping: 10 }}
-                            className="inline-block hover:text-[#eca501] transition-colors duration-150 ease-out cursor-default select-none animate-none"
+                            className="inline-block hover:text-[#A855F7] transition-colors duration-150 ease-out cursor-default select-none animate-none"
                           >
                             {char}
                           </motion.span>
@@ -1187,7 +1340,7 @@ export default function App() {
                       </span>
                     ))}
                   </h2>
-                  <p className="text-zinc-300 text-sm sm:text-base mt-6 leading-relaxed max-w-4xl">
+                  <p className="text-zinc-600 text-sm sm:text-base mt-6 leading-relaxed max-w-4xl">
                     Graphic Designer with a strong passion for visual creativity and delivering impactful design solutions. Dedicated to producing high-quality work that meets client expectations and deadlines. Proficient in Adobe Photoshop, Adobe Illustrator, Adobe After Effects, and Adobe Premiere Pro. While experienced across multiple design disciplines, I have a particular passion for motion design, specializing in creating engaging animations and dynamic visual content that bring ideas to life.
                   </p>
                 </motion.div>
@@ -1199,7 +1352,7 @@ export default function App() {
                   transition={{ duration: 0.7 }}
                   className="w-full"
                 >
-                  <span className="text-[10px] font-mono tracking-[0.25em] text-[#eca501] uppercase font-bold block mb-8">
+                  <span className="text-[10px] font-mono tracking-[0.25em] text-[#A855F7] uppercase font-bold block mb-8">
                     APPLICATIONS & WORKFLOWS
                   </span>
                   <div 
@@ -1231,7 +1384,7 @@ export default function App() {
                             <span className={`${app.textCol} font-sans font-black text-[15px] tracking-tight`}>{app.short}</span>
                           </div>
                           <div>
-                            <h4 className={`text-white font-display font-medium text-base tracking-wide group-hover:${app.hoverText} group-hover:translate-x-1 transition-all duration-300`}>{app.name}</h4>
+                            <h4 className={`text-zinc-800 font-display font-medium text-base tracking-wide group-hover:${app.hoverText} group-hover:translate-x-1 transition-all duration-300`}>{app.name}</h4>
                           </div>
                         </motion.div>
                       );
@@ -1245,9 +1398,9 @@ export default function App() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-100px" }}
                   transition={{ duration: 0.7 }}
-                  className="w-full border-t border-zinc-900/40 pt-16"
+                  className="w-full border-t border-zinc-200/80 pt-16"
                 >
-                  <span className="text-[10px] font-mono tracking-[0.25em] text-[#eca501] uppercase font-bold block mb-8">
+                  <span className="text-[10px] font-mono tracking-[0.25em] text-[#A855F7] uppercase font-bold block mb-8">
                     AI PLATFORMS USED
                   </span>
                   <div 
@@ -1273,17 +1426,17 @@ export default function App() {
                           onMouseEnter={() => setHoveredAIPlatformIndex(idx)}
                           animate={{ scale, y: yOffset }}
                           transition={{ type: "spring", stiffness: 380, damping: 22 }}
-                          className="bg-zinc-900/20 border border-white/5 hover:border-[#eca501]/40 rounded-2xl p-5 flex flex-col gap-3 group cursor-pointer relative origin-center"
+                          className="bg-white border border-zinc-200/60 hover:border-[#A855F7]/40 rounded-2xl p-5 flex flex-col gap-3 group cursor-pointer relative origin-center shadow-sm"
                           style={{ zIndex: isHovered ? 30 : 10 }}
                         >
                           <img 
                             src={platform.logo} 
                             alt={`${platform.name} Logo`} 
-                            className="w-10 h-10 rounded-xl object-contain bg-white/5 p-1.5 group-hover:scale-110 transition-transform duration-300 select-none" 
+                            className="w-10 h-10 rounded-xl object-contain bg-zinc-100 p-1.5 group-hover:scale-110 transition-transform duration-300 select-none" 
                             referrerPolicy="no-referrer"
                           />
                           <div>
-                            <h4 className="text-white font-display font-semibold text-sm tracking-wide group-hover:text-[#eca501] transition-colors duration-200">{platform.name}</h4>
+                            <h4 className="text-zinc-800 font-display font-semibold text-sm tracking-wide group-hover:text-[#A855F7] transition-colors duration-200">{platform.name}</h4>
                             <p className="text-zinc-500 text-[10px] font-mono leading-normal mt-1">{platform.desc}</p>
                           </div>
                         </motion.div>
@@ -1299,24 +1452,24 @@ export default function App() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.7 }}
-                className="max-w-5xl w-full border-t border-zinc-900/80 mt-20 pt-16 flex flex-col md:flex-row justify-between items-start gap-12"
+                className="max-w-5xl w-full border-t border-zinc-200 mt-20 pt-16 flex flex-col md:flex-row justify-between items-start gap-12"
               >
                 <div>
-                  <span className="text-[10px] font-mono tracking-[0.25em] text-[#eca501] uppercase font-bold">COLLABORATION</span>
-                  <h2 className="text-white text-2xl font-display font-black tracking-tight uppercase mt-2">WANT TO CREATE SOMETHING?</h2>
-                  <p className="text-zinc-400 text-xs mt-3 max-w-sm leading-relaxed font-mono">
+                  <span className="text-[10px] font-mono tracking-[0.25em] text-[#A855F7] uppercase font-bold">COLLABORATION</span>
+                  <h2 className="text-zinc-900 text-2xl font-display font-black tracking-tight uppercase mt-2">WANT TO CREATE SOMETHING?</h2>
+                  <p className="text-zinc-600 text-xs mt-3 max-w-sm leading-relaxed font-mono">
                     Available for visual direction, freelance client bookings, and technical consulting. Feel free to reach out with project parameters.
                   </p>
                 </div>
                 <div className="flex flex-col gap-4 font-mono text-xs w-full md:w-auto">
-                  <span className="text-[#eca501] text-[10px] tracking-widest font-bold">DIRECT CHANNELS:</span>
-                  <a href="mailto:asamoahvictor12@gmail.com" className="hover:text-[#eca501] text-white transition-colors duration-200 flex items-center gap-2">
+                  <span className="text-[#A855F7] text-[10px] tracking-widest font-bold">DIRECT CHANNELS:</span>
+                  <a href="mailto:asamoahvictor12@gmail.com" className="hover:text-[#A855F7] text-zinc-700 transition-colors duration-200 flex items-center gap-2 font-semibold">
                     <Mail size={14} /> asamoahvictor12@gmail.com
                   </a>
                   <div className="flex gap-4 mt-2">
-                    <a href="https://www.instagram.com/estudiox_graphics?igsh=bDJqNndjbDJuZndn&utm_source=qr" target="_blank" rel="noopener noreferrer" className="hover:text-[#eca501] text-white transition-colors duration-200">INSTAGRAM</a>
-                    <span>/</span>
-                    <a href="https://www.linkedin.com/in/asamoah-victor-62831a190" target="_blank" rel="noopener noreferrer" className="hover:text-[#eca501] text-white transition-colors duration-200">LINKEDIN</a>
+                    <a href="https://www.instagram.com/estudiox_graphics?igsh=bDJqNndjbDJuZndn&utm_source=qr" target="_blank" rel="noopener noreferrer" className="hover:text-[#A855F7] text-zinc-600 transition-colors duration-200 uppercase font-semibold">INSTAGRAM</a>
+                    <span className="text-zinc-300">/</span>
+                    <a href="https://www.linkedin.com/in/asamoah-victor-62831a190" target="_blank" rel="noopener noreferrer" className="hover:text-[#A855F7] text-zinc-600 transition-colors duration-200 uppercase font-semibold">LINKEDIN</a>
                   </div>
                 </div>
               </motion.div>
@@ -1327,19 +1480,18 @@ export default function App() {
                   onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                   whileHover={{ scale: 1.15 }}
                   whileTap={{ scale: 0.95 }}
-                  className="w-12 h-12 rounded-full bg-[#eca501] flex items-center justify-center text-black shadow-[0_4px_20px_rgba(236,165,1,0.25)] hover:shadow-[0_4px_24px_rgba(236,165,1,0.45)] cursor-pointer transition-shadow"
+                  className="w-12 h-12 rounded-full bg-zinc-900 flex items-center justify-center text-white shadow-[0_4px_20px_rgba(0,0,0,0.15)] hover:bg-[#A855F7] hover:shadow-[0_4px_24px_rgba(168,85,247,0.3)] cursor-pointer transition-all duration-300"
                 >
                   <ArrowUp size={20} strokeWidth={2.5} />
                 </motion.button>
               </div>
             </section>
 
+            {/* Design disciplines scroll ticker tape */}
+            <InteractiveDisciplines />
+
             {/* About footer */}
-            <footer id="about-footer" className="w-full flex justify-center py-8 px-6 relative z-10 bg-black border-t border-zinc-900">
-              <p className="text-[10px] font-mono tracking-widest text-[#eca501] uppercase font-bold">
-                © {new Date().getFullYear()} Victor Ohene Asamoah
-              </p>
-            </footer>
+            <Footer />
           </motion.div>
         ) : currentView === 'motion' ? (
           <motion.div
@@ -1348,14 +1500,14 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.4 }}
-            className="w-full flex-1 flex flex-col pt-0 bg-black relative"
+            className="w-full flex-1 flex flex-col pt-0 bg-white relative"
           >
             {/* Ambient Background Cinematic Particle Shimmer */}
-            <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,rgba(236,165,1,0.06)_0%,transparent_70%)] pointer-events-none" />
+            <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,rgba(168,85,247,0.04)_0%,transparent_70%)] pointer-events-none" />
  
-            <section id="motion-hero" className="w-full min-h-[500px] sm:min-h-[600px] px-6 sm:px-12 md:px-24 relative z-10 flex flex-col justify-end items-center select-none overflow-hidden rounded-b-[2rem] border-b border-white/5 shadow-2xl pb-16 sm:pb-20 pt-44">
+            <section id="motion-hero" className="w-full min-h-[500px] sm:min-h-[600px] px-6 sm:px-12 md:px-24 relative z-10 flex flex-col justify-end items-center select-none overflow-hidden rounded-b-[2rem] border-b border-zinc-200/80 shadow-2xl pb-16 sm:pb-20 pt-44">
               {/* Cinematic Video Background inside Hero container */}
-              <div className="absolute inset-0 w-full h-full z-0 flex items-center justify-center bg-black">
+              <div className="absolute inset-0 w-full h-full z-0 flex items-center justify-center bg-white">
                 <video
                   id="motion-hero-bg-video-player"
                   autoPlay
@@ -1400,7 +1552,7 @@ export default function App() {
 
               {/* PORTRAIT VIDEOS SECTION - Five 1080x1920 (9:16) portrait video boxes */}
               <div id="portrait-motion-container" className="max-w-7xl w-full mt-24 sm:mt-32">
-                <span className="text-[10px] font-mono tracking-[0.25em] text-[#eca501] uppercase font-bold block mb-10 text-center sm:text-left">
+                <span className="text-[10px] font-mono tracking-[0.25em] text-[#A855F7] uppercase font-bold block mb-10 text-center sm:text-left">
                   PORTRAIT REELS COLLECTION // 1080 x 1920
                 </span>
                 
@@ -1424,19 +1576,18 @@ export default function App() {
                   onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                   whileHover={{ scale: 1.15 }}
                   whileTap={{ scale: 0.95 }}
-                  className="w-12 h-12 rounded-full bg-[#eca501] flex items-center justify-center text-black shadow-[0_4px_20px_rgba(236,165,1,0.25)] hover:shadow-[0_4px_24px_rgba(236,165,1,0.45)] cursor-pointer transition-shadow"
+                  className="w-12 h-12 rounded-full bg-zinc-900 flex items-center justify-center text-white shadow-[0_4px_20px_rgba(0,0,0,0.15)] hover:bg-[#A855F7] hover:shadow-[0_4px_24px_rgba(168,85,247,0.3)] cursor-pointer transition-all duration-300"
                 >
                   <ArrowUp size={20} strokeWidth={2.5} />
                 </motion.button>
               </div>
             </section>
+
+            {/* Design disciplines scroll ticker tape */}
+            <InteractiveDisciplines />
  
             {/* Motion Subpage footer */}
-            <footer id="motion-footer" className="w-full flex justify-center py-8 px-6 relative z-10 bg-black border-t border-zinc-900 mt-auto">
-              <p className="text-[10px] font-mono tracking-widest text-[#eca501] uppercase font-bold">
-                © {new Date().getFullYear()} Victor Ohene Asamoah
-              </p>
-            </footer>
+            <Footer />
           </motion.div>
         ) : currentView === 'contact' ? (
           <motion.div
@@ -1445,28 +1596,28 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.4 }}
-            className="w-full flex-1 flex flex-col pt-12 md:pt-14 lg:pt-16 bg-black relative min-h-screen justify-between"
+            className="w-full flex-1 flex flex-col pt-12 md:pt-14 lg:pt-16 bg-white relative min-h-screen justify-between"
           >
             {/* Ambient background accent shimmer */}
-            <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,rgba(236,165,1,0.05)_0%,transparent_70%)] pointer-events-none" />
+            <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,rgba(168,85,247,0.04)_0%,transparent_70%)] pointer-events-none" />
             <section id="contact-main" className="w-full pt-4 pb-16 px-6 sm:px-12 md:px-24 relative z-10 flex flex-col items-center select-none flex-1">
-              <div className="max-w-5xl w-full flex flex-col lg:flex-row gap-8 lg:gap-16 lg:items-stretch items-start">
-                {/* Left Column: Form and channels */}
+              <div className="max-w-2xl w-full mx-auto">
+                {/* Center Column: Form and channels */}
                 <motion.div 
-                  initial={{ opacity: 0, x: -35 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, y: 35 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6 }}
-                  className="w-full lg:w-7/12 flex flex-col gap-8"
+                  className="w-full flex flex-col gap-8"
                 >
                   <div>
-                    <span className="text-[10px] font-mono tracking-[0.25em] text-[#eca501] uppercase font-bold">
+                    <span className="text-[10px] font-mono tracking-[0.25em] text-[#A855F7] uppercase font-bold">
                       GET IN TOUCH // DIRECT LINE
                     </span>
-                    <h1 className="text-white text-3xl sm:text-4xl md:text-5xl font-display font-black tracking-tight uppercase mt-3 leading-tight font-sans">
+                    <h1 className="text-zinc-900 text-3xl sm:text-4xl md:text-5xl font-display font-black tracking-tight uppercase mt-3 leading-tight font-sans">
                       LET'S SPARK SOMETHING
                     </h1>
-                    <p className="text-zinc-400 text-sm sm:text-base mt-2.5 leading-relaxed font-mono">
+                    <p className="text-zinc-600 text-sm sm:text-base mt-2.5 leading-relaxed font-mono">
                       Whether you have a commercial campaign, motion project, spatial branding enquiry or general agency outreach, reach out directly.
                     </p>
                   </div>
@@ -1477,49 +1628,36 @@ export default function App() {
                   </div>
 
                   {/* Direct details box with custom glass design */}
-                  <div className="bg-zinc-950/60 border border-white/5 rounded-2xl p-6 sm:p-8 flex flex-col gap-6 backdrop-blur-md shadow-2xl relative overflow-hidden group hover:border-[#eca501]/20 transition-colors">
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-[#eca501]/5 rounded-full blur-3xl pointer-events-none group-hover:bg-[#eca501]/10 transition-colors" />
+                  <div className="bg-zinc-50 border border-zinc-200 rounded-2xl p-6 sm:p-8 flex flex-col gap-6 backdrop-blur-md shadow-lg relative overflow-hidden group hover:border-[#A855F7]/20 transition-colors">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-[#A855F7]/5 rounded-full blur-3xl pointer-events-none group-hover:bg-[#A855F7]/10 transition-colors" />
                     
                     <div className="flex flex-col gap-1">
-                      <span className="text-[10px] font-mono tracking-widest text-[#eca501] uppercase font-bold">DIRECT MAIL :</span>
+                      <span className="text-[10px] font-mono tracking-widest text-[#A855F7] uppercase font-bold">DIRECT MAIL :</span>
                       <a 
                         href="mailto:asamoahvictor12@gmail.com" 
-                        className="text-white hover:text-[#eca501] text-base md:text-lg font-medium font-sans flex items-center gap-2 transition-colors duration-200 mt-1 cursor-pointer select-text"
+                        className="text-zinc-800 hover:text-[#A855F7] text-base md:text-lg font-semibold font-sans flex items-center gap-2 transition-colors duration-200 mt-1 cursor-pointer select-text"
                       >
                         <Mail size={16} /> asamoahvictor12@gmail.com
                       </a>
                     </div>
 
-                    <div className="flex flex-col gap-1 border-t border-white/5 pt-5">
-                      <span className="text-[10px] font-mono tracking-widest text-[#eca501] uppercase font-bold">TELEPHONE // WHATSAPP :</span>
-                      <a 
-                        href="tel:+233503027024" 
-                        className="text-white hover:text-[#eca501] text-base md:text-lg font-medium font-sans flex items-center gap-2 transition-colors duration-200 mt-1 cursor-pointer select-text"
-                      >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                        </svg>
-                        +233 50 302 7024
-                      </a>
-                    </div>
-
-                    <div className="flex flex-col gap-1 border-t border-white/5 pt-5">
-                      <span className="text-[10px] font-mono tracking-widest text-[#eca501] uppercase font-bold">SOCIAL DIRECT :</span>
+                    <div className="flex flex-col gap-1 border-t border-zinc-200/50 pt-5">
+                      <span className="text-[10px] font-mono tracking-widest text-[#A855F7] uppercase font-bold">SOCIAL DIRECT :</span>
                       <div className="flex gap-4 items-center mt-2.5 font-sans text-xs">
                         <a 
                           href="https://www.instagram.com/estudiox_graphics?igsh=bDJqNndjbDJuZndn&utm_source=qr" 
                           target="_blank" 
                           rel="noopener noreferrer" 
-                          className="hover:text-[#eca501] text-zinc-300 transition-colors duration-200 uppercase font-semibold cursor-pointer"
+                          className="hover:text-[#A855F7] text-zinc-600 transition-colors duration-200 uppercase font-bold cursor-pointer"
                         >
                           Instagram
                         </a>
-                        <span className="text-zinc-700">/</span>
+                        <span className="text-zinc-300">/</span>
                         <a 
                           href="https://www.linkedin.com/in/asamoah-victor-62831a190" 
                           target="_blank" 
                           rel="noopener noreferrer" 
-                          className="hover:text-[#eca501] text-zinc-300 transition-colors duration-200 uppercase font-semibold cursor-pointer"
+                          className="hover:text-[#A855F7] text-zinc-600 transition-colors duration-200 uppercase font-bold cursor-pointer"
                         >
                           LinkedIn
                         </a>
@@ -1527,50 +1665,11 @@ export default function App() {
                     </div>
                   </div>
                 </motion.div>
-
-                {/* Right Column: Prominent standalone image, no card/background container, full tall height */}
-                <motion.div 
-                  initial={{ opacity: 0, x: 35 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                  id="contact-image-container" 
-                  className="w-full lg:w-5/12 flex items-center justify-center lg:self-stretch select-none"
-                >
-                  <motion.img 
-                    src="https://i.im.ge/QM6OfAq/Mobile_phone.png" 
-                    alt="Mobile phone illustration with graphic design assets" 
-                    className="w-full h-auto lg:h-full max-h-[85vh] lg:max-h-full object-contain cursor-pointer transition-all duration-300"
-                    referrerPolicy="no-referrer"
-                    initial={{ y: 0 }}
-                    animate={{ 
-                      y: [0, -10, 0],
-                    }}
-                    transition={{
-                      y: {
-                        duration: 5,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                      }
-                    }}
-                    whileHover={{ 
-                      scale: 1.05, 
-                      rotate: [0, -1, 1, 0],
-                      y: -12,
-                      filter: "drop-shadow(0 25px 35px rgba(236,165,1,0.25))"
-                    }}
-                    whileTap={{ scale: 0.98 }}
-                  />
-                </motion.div>
               </div>
             </section>
 
             {/* Subpage footer */}
-            <footer id="contact-footer" className="w-full flex justify-center py-8 px-6 relative z-10 bg-black border-t border-zinc-900 mt-auto">
-              <p className="text-[10px] font-mono tracking-widest text-[#eca501] uppercase font-bold">
-                © {new Date().getFullYear()} Victor Ohene Asamoah
-              </p>
-            </footer>
+            <Footer />
           </motion.div>
         ) : (
           <motion.div
@@ -1583,7 +1682,7 @@ export default function App() {
           >
             {/* Hero Section */}
             <section id="home" className="relative w-full flex-1 flex flex-col overflow-hidden bg-[#FAF7F2] min-h-screen">
-              {/* Background Video with Full-Width Immersive Cover - Absolute positioning relative to #home section */}
+             {/* Background Video with Full-Width Immersive Cover - Absolute positioning relative to #home section */}
               <div id="bg-video-container" className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
                 <video
                   id="bg-video-player"
@@ -1612,7 +1711,7 @@ export default function App() {
               </div>
 
               {/* Main Hero Body */}
-              <main id="hero-main" className="flex-1 flex flex-col justify-start pt-[18vh] sm:pt-[15vh] md:pt-[18vh] lg:pt-[21vh] pb-16 sm:pb-20 md:pb-24 pl-6 sm:pl-12 md:pl-16 lg:pl-20 xl:pl-24 pr-6 sm:pr-12 md:pr-32 lg:pr-40 xl:pr-48 max-w-7xl w-full mx-auto select-none relative z-10">
+              <main id="hero-main" className="flex-1 flex flex-col justify-start pt-[45vh] sm:pt-[42vh] md:pt-[45vh] lg:pt-[48vh] pb-16 sm:pb-20 md:pb-24 pl-6 sm:pl-12 md:pl-16 lg:pl-20 xl:pl-24 pr-6 sm:pr-12 md:pr-32 lg:pr-40 xl:pr-48 max-w-7xl w-full mx-auto select-none relative z-10">
                 <div id="hero-content" className="max-w-3xl select-text w-full font-serif text-black">
                   
                   {/* Greeting tag */}
@@ -1761,27 +1860,64 @@ export default function App() {
               transition={{ duration: 0.7 }}
               className="w-full bg-black relative z-10 overflow-hidden py-4 border-b border-zinc-900/40"
             >
-              <div id="video-container" className="w-full bg-black flex items-center justify-center">
-                <video
-                  id="brand-scrolling-video"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  controls={false}
-                  className="w-full h-auto max-h-[120px] sm:max-h-[160px] md:max-h-[200px] object-contain block bg-black"
-                  style={{ pointerEvents: 'none' }}
-                >
-                  <source src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/role_vtobve.mp4")} type="video/mp4" />
-                  <source src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/v1/role_vtobve.mp4")} type="video/mp4" />
-                </video>
+              <div id="video-container" className="w-full bg-black flex overflow-hidden">
+                <div className="animate-marquee-rtl flex flex-row w-max flex-nowrap gap-0">
+                  <video
+                    className="h-14 sm:h-20 md:h-24 lg:h-28 xl:h-32 w-auto aspect-[1578/270] flex-shrink-0 object-cover block bg-black"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    controls={false}
+                    style={{ pointerEvents: 'none' }}
+                  >
+                    <source src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/role_vtobve.mp4")} type="video/mp4" />
+                    <source src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/v1/role_vtobve.mp4")} type="video/mp4" />
+                  </video>
+                  <video
+                    className="h-14 sm:h-20 md:h-24 lg:h-28 xl:h-32 w-auto aspect-[1578/270] flex-shrink-0 object-cover block bg-black"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    controls={false}
+                    style={{ pointerEvents: 'none' }}
+                  >
+                    <source src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/role_vtobve.mp4")} type="video/mp4" />
+                    <source src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/v1/role_vtobve.mp4")} type="video/mp4" />
+                  </video>
+                  <video
+                    className="h-14 sm:h-20 md:h-24 lg:h-28 xl:h-32 w-auto aspect-[1578/270] flex-shrink-0 object-cover block bg-black"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    controls={false}
+                    style={{ pointerEvents: 'none' }}
+                  >
+                    <source src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/role_vtobve.mp4")} type="video/mp4" />
+                    <source src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/v1/role_vtobve.mp4")} type="video/mp4" />
+                  </video>
+                  <video
+                    className="h-14 sm:h-20 md:h-24 lg:h-28 xl:h-32 w-auto aspect-[1578/270] flex-shrink-0 object-cover block bg-black"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    controls={false}
+                    style={{ pointerEvents: 'none' }}
+                  >
+                    <source src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/role_vtobve.mp4")} type="video/mp4" />
+                    <source src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/v1/role_vtobve.mp4")} type="video/mp4" />
+                  </video>
+                </div>
               </div>
             </motion.section>
 
             {/* Portfolio Section - Overlapping Fan Design */}
             <section 
               id="projects" 
-              className="w-full bg-[#f0a202] pt-16 pb-24 md:pt-24 md:pb-32 px-6 sm:px-12 md:px-24 relative z-10 flex flex-col items-center overflow-hidden"
+              className="w-full bg-white pt-16 pb-24 md:pt-24 md:pb-32 relative z-10 flex flex-col items-center overflow-hidden border-t border-zinc-150"
             >
               {/* Scrolling giant background text spanning the entire yellow background with opposite directions */}
               <div id="branding-marquee" className="absolute inset-x-0 top-0 bottom-0 pointer-events-none overflow-hidden select-none z-0 flex flex-col justify-around py-16 opacity-60">
@@ -1790,7 +1926,7 @@ export default function App() {
                   <motion.div 
                     animate={{ x: ["-50%", "0%"] }} 
                     transition={{ repeat: Infinity, ease: "linear", duration: 35 }}
-                    className="flex whitespace-nowrap text-[9vw] font-display font-black text-black/[0.05] tracking-[0.15em] uppercase leading-none"
+                    className="flex whitespace-nowrap text-[22vw] font-display font-black text-black/[0.025] tracking-[0.15em] uppercase leading-none"
                   >
                     <span>BRANDING • CREATIVITY • ADVERTISING • BRANDING • CREATIVITY • ADVERTISING •&nbsp;</span>
                     <span>BRANDING • CREATIVITY • ADVERTISING • BRANDING • CREATIVITY • ADVERTISING •&nbsp;</span>
@@ -1802,7 +1938,7 @@ export default function App() {
                   <motion.div 
                     animate={{ x: ["0%", "-50%"] }} 
                     transition={{ repeat: Infinity, ease: "linear", duration: 35 }}
-                    className="flex whitespace-nowrap text-[9vw] font-display font-black text-black/[0.05] tracking-[0.15em] uppercase leading-none"
+                    className="flex whitespace-nowrap text-[22vw] font-display font-black text-black/[0.025] tracking-[0.15em] uppercase leading-none"
                   >
                     <span>CREATIVITY • ADVERTISING • BRANDING • CREATIVITY • ADVERTISING • BRANDING •&nbsp;</span>
                     <span>CREATIVITY • ADVERTISING • BRANDING • CREATIVITY • ADVERTISING • BRANDING •&nbsp;</span>
@@ -1814,7 +1950,7 @@ export default function App() {
                   <motion.div 
                     animate={{ x: ["-50%", "0%"] }} 
                     transition={{ repeat: Infinity, ease: "linear", duration: 35 }}
-                    className="flex whitespace-nowrap text-[9vw] font-display font-black text-black/[0.05] tracking-[0.15em] uppercase leading-none"
+                    className="flex whitespace-nowrap text-[22vw] font-display font-black text-black/[0.025] tracking-[0.15em] uppercase leading-none"
                   >
                     <span>ADVERTISING • BRANDING • CREATIVITY • ADVERTISING • BRANDING • CREATIVITY •&nbsp;</span>
                     <span>ADVERTISING • BRANDING • CREATIVITY • ADVERTISING • BRANDING • CREATIVITY •&nbsp;</span>
@@ -1822,8 +1958,8 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="max-w-7xl w-full relative z-10 flex flex-col items-center gap-4 sm:gap-6 md:gap-8">
-                {/* Section Heading */}
+              {/* Section Heading with Page Margins */}
+              <div className="max-w-7xl w-full px-6 sm:px-12 md:px-24 relative z-10 flex flex-col items-center text-center">
                 <motion.div 
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -1831,103 +1967,105 @@ export default function App() {
                   transition={{ duration: 0.6 }}
                   className="text-center"
                 >
-                  <span className="text-[10px] md:text-xs font-mono tracking-[0.25em] text-black/60 uppercase font-bold">
+                  <span className="text-[10px] md:text-xs font-mono tracking-[0.25em] text-zinc-500 uppercase font-bold">
                     -- SELECTED PORTFOLIO GEMS --
                   </span>
-                  <h2 className="text-2xl sm:text-3xl font-display font-bold tracking-tight text-black mt-2 uppercase">
-                    My Few Works
+                  <h2 className="text-2xl sm:text-3xl font-display font-black tracking-tight text-zinc-900 mt-2 uppercase">
+                    Selected Works
                   </h2>
                 </motion.div>
+              </div>
 
-                {/* 3 continuous alternate scrolling rows positioned in the middle (bounded inside the central layout container) */}
-                <motion.div 
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.8 }}
-                  className="w-full relative flex flex-col gap-2 sm:gap-3 md:gap-4 overflow-hidden mt-6 z-10 animate-fade-in"
-                >
-                  {/* Row 1: Left to Right scrolling */}
-                  <div className="w-full overflow-hidden py-6 sm:py-8 md:py-10 relative">
-                    <div className="animate-marquee-ltr flex flex-row w-max flex-nowrap gap-3 sm:gap-4 md:gap-5">
-                      {PORTFOLIO_ITEMS.slice(0, 6).map((item, idx) => (
-                        <div
-                          key={`${item.id}-row1-a`}
-                          className="w-[125px] sm:w-[165px] md:w-[200px] lg:w-[230px] xl:w-[250px] flex-shrink-0"
-                        >
-                          <InteractiveBox item={item} index={idx} onClick={() => setSelectedItem(item)} />
-                        </div>
-                      ))}
-                      {PORTFOLIO_ITEMS.slice(0, 6).map((item, idx) => (
-                        <div
-                          key={`${item.id}-row1-b`}
-                          className="w-[125px] sm:w-[165px] md:w-[200px] lg:w-[230px] xl:w-[250px] flex-shrink-0"
-                        >
-                          <InteractiveBox item={item} index={idx} onClick={() => setSelectedItem(item)} />
-                        </div>
-                      ))}
-                    </div>
+              {/* 3 continuous scrolling rows (Edge-to-Edge) */}
+              <motion.div 
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.8 }}
+                className="w-full relative flex flex-col gap-2 sm:gap-3 md:gap-4 overflow-hidden mt-6 z-10 animate-fade-in"
+              >
+                {/* Row 1: Right to Left scrolling */}
+                <div className="w-full overflow-hidden py-6 sm:py-8 md:py-10 relative">
+                  <div className="animate-marquee-rtl flex flex-row w-max flex-nowrap gap-3 sm:gap-4 md:gap-5">
+                    {PORTFOLIO_ITEMS.slice(0, 6).map((item, idx) => (
+                      <div
+                        key={`${item.id}-row1-a`}
+                        className="w-[125px] sm:w-[165px] md:w-[200px] lg:w-[230px] xl:w-[250px] flex-shrink-0"
+                      >
+                        <InteractiveBox item={item} index={idx} onClick={() => setSelectedItem(item)} />
+                      </div>
+                    ))}
+                    {PORTFOLIO_ITEMS.slice(0, 6).map((item, idx) => (
+                      <div
+                        key={`${item.id}-row1-b`}
+                        className="w-[125px] sm:w-[165px] md:w-[200px] lg:w-[230px] xl:w-[250px] flex-shrink-0"
+                      >
+                        <InteractiveBox item={item} index={idx} onClick={() => setSelectedItem(item)} />
+                      </div>
+                    ))}
                   </div>
+                </div>
 
-                  {/* Row 2: Right to Left scrolling */}
-                  <div className="w-full overflow-hidden py-6 sm:py-8 md:py-10 relative">
-                    <div className="animate-marquee-rtl flex flex-row w-max flex-nowrap gap-3 sm:gap-4 md:gap-5">
-                      {PORTFOLIO_ITEMS.slice(6, 12).map((item, idx) => (
-                        <div
-                          key={`${item.id}-row2-a`}
-                          className="w-[125px] sm:w-[165px] md:w-[200px] lg:w-[230px] xl:w-[250px] flex-shrink-0"
-                        >
-                          <InteractiveBox item={item} index={6 + idx} onClick={() => setSelectedItem(item)} />
-                        </div>
-                      ))}
-                      {PORTFOLIO_ITEMS.slice(6, 12).map((item, idx) => (
-                        <div
-                          key={`${item.id}-row2-b`}
-                          className="w-[125px] sm:w-[165px] md:w-[200px] lg:w-[230px] xl:w-[250px] flex-shrink-0"
-                        >
-                          <InteractiveBox item={item} index={6 + idx} onClick={() => setSelectedItem(item)} />
-                        </div>
-                      ))}
-                    </div>
+                {/* Row 2: Left to Right scrolling */}
+                <div className="w-full overflow-hidden py-6 sm:py-8 md:py-10 relative">
+                  <div className="animate-marquee-ltr flex flex-row w-max flex-nowrap gap-3 sm:gap-4 md:gap-5">
+                    {PORTFOLIO_ITEMS.slice(6, 12).map((item, idx) => (
+                      <div
+                        key={`${item.id}-row2-a`}
+                        className="w-[125px] sm:w-[165px] md:w-[200px] lg:w-[230px] xl:w-[250px] flex-shrink-0"
+                      >
+                        <InteractiveBox item={item} index={6 + idx} onClick={() => setSelectedItem(item)} />
+                      </div>
+                    ))}
+                    {PORTFOLIO_ITEMS.slice(6, 12).map((item, idx) => (
+                      <div
+                        key={`${item.id}-row2-b`}
+                        className="w-[125px] sm:w-[165px] md:w-[200px] lg:w-[230px] xl:w-[250px] flex-shrink-0"
+                      >
+                        <InteractiveBox item={item} index={6 + idx} onClick={() => setSelectedItem(item)} />
+                      </div>
+                    ))}
                   </div>
+                </div>
 
-                  {/* Row 3: Left to Right scrolling, very close together */}
-                  <div className="w-full overflow-hidden py-6 sm:py-8 md:py-10 relative">
-                    <div className="animate-marquee-ltr flex flex-row w-max flex-nowrap gap-3 sm:gap-4 md:gap-5">
-                      {PORTFOLIO_ITEMS.slice(12, 18).map((item, idx) => (
-                        <div
-                          key={`${item.id}-row3-a`}
-                          className="w-[125px] sm:w-[165px] md:w-[200px] lg:w-[230px] xl:w-[250px] flex-shrink-0"
-                        >
-                          <InteractiveBox item={item} index={12 + idx} onClick={() => setSelectedItem(item)} />
-                        </div>
-                      ))}
-                      {PORTFOLIO_ITEMS.slice(12, 18).map((item, idx) => (
-                        <div
-                          key={`${item.id}-row3-b`}
-                          className="w-[125px] sm:w-[165px] md:w-[200px] lg:w-[230px] xl:w-[250px] flex-shrink-0"
-                        >
-                          <InteractiveBox item={item} index={12 + idx} onClick={() => setSelectedItem(item)} />
-                        </div>
-                      ))}
-                    </div>
+                {/* Row 3: Right to Left scrolling */}
+                <div className="w-full overflow-hidden py-6 sm:py-8 md:py-10 relative">
+                  <div className="animate-marquee-rtl flex flex-row w-max flex-nowrap gap-3 sm:gap-4 md:gap-5">
+                    {PORTFOLIO_ITEMS.slice(12, 18).map((item, idx) => (
+                      <div
+                        key={`${item.id}-row3-a`}
+                        className="w-[125px] sm:w-[165px] md:w-[200px] lg:w-[230px] xl:w-[250px] flex-shrink-0"
+                      >
+                        <InteractiveBox item={item} index={12 + idx} onClick={() => setSelectedItem(item)} />
+                      </div>
+                    ))}
+                    {PORTFOLIO_ITEMS.slice(12, 18).map((item, idx) => (
+                      <div
+                        key={`${item.id}-row3-b`}
+                        className="w-[125px] sm:w-[165px] md:w-[200px] lg:w-[230px] xl:w-[250px] flex-shrink-0"
+                      >
+                        <InteractiveBox item={item} index={12 + idx} onClick={() => setSelectedItem(item)} />
+                      </div>
+                    ))}
                   </div>
-                </motion.div>
+                </div>
+              </motion.div>
 
-                {/* Navigation callout leading to motion page */}
+              {/* Navigation Callout with Page Margins */}
+              <div className="max-w-7xl w-full px-6 sm:px-12 md:px-24 relative z-10 flex flex-col items-center mt-12 mb-6">
                 <motion.div
                   initial={{ opacity: 0, y: 15 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5 }}
-                  className="w-full flex justify-center mt-12 mb-6"
+                  className="w-full flex justify-center"
                 >
                   <button
-                    id="navigate-to-motion-button"
                     onClick={() => handleNavigate('motion')}
-                    className="inline-flex items-center justify-center bg-black text-white font-bold text-sm sm:text-base px-9 py-4 rounded-full hover:bg-[#A855F7] shadow-[0_4px_16px_rgba(0,0,0,0.18)] active:scale-95 transition-all duration-300 cursor-pointer"
+                    className="group flex items-center gap-2.5 px-7 py-3.5 rounded-full border border-transparent bg-black text-white hover:bg-[#A855F7] transition-all duration-300 font-sans text-xs font-bold tracking-widest uppercase cursor-pointer shadow-sm hover:shadow-md"
                   >
-                    <span>Navigate to the motion page</span>
+                    EXPLORE FULL MOTION PORTFOLIO
+                    <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                   </button>
                 </motion.div>
 
@@ -1955,46 +2093,26 @@ export default function App() {
               </div>
             </section>
 
-            {/* Interactive Design Disciplines list */}
-            <InteractiveDisciplines />
-
-            {/* Scroll back to top arrow button right under the disciplines section */}
-            <div id="scroll-to-top-container" className="w-full bg-black flex justify-center py-8">
+            {/* Scroll back to top arrow button right under the projects section */}
+            <div id="scroll-to-top-container" className="w-full bg-white flex justify-center py-8">
               <motion.button
                 id="scroll-to-top-button"
                 onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                 whileHover={{ scale: 1.15, rotate: -5 }}
                 whileTap={{ scale: 0.95 }}
                 transition={{ type: "spring", stiffness: 350, damping: 15 }}
-                className="w-12 h-12 rounded-full bg-[#f0a202] flex items-center justify-center text-black shadow-[0_4px_20px_rgba(240,162,2,0.15)] hover:shadow-[0_4px_24px_rgba(240,162,2,0.3)] cursor-pointer transition-shadow duration-300 focus:outline-none"
+                className="w-12 h-12 rounded-full bg-zinc-900 flex items-center justify-center text-white shadow-[0_4px_20px_rgba(0,0,0,0.15)] hover:bg-[#A855F7] hover:shadow-[0_4px_24px_rgba(168,85,247,0.3)] cursor-pointer transition-all duration-300 focus:outline-none"
                 aria-label="Scroll to top"
               >
                 <ArrowUp size={20} strokeWidth={2.5} />
               </motion.button>
             </div>
 
-            {/* Bottom Footer - Minimal & Styled */}
-            <footer id="main-footer" className="w-full flex justify-center py-8 px-6 relative z-10 bg-black border-t border-zinc-900">
-              <div className="flex flex-col items-center gap-4">
-                {/* Email and socials for easy access on homepage footer */}
-                <div className="flex items-center gap-6 text-[10px] sm:text-xs font-mono text-zinc-500">
-                  <a href="mailto:asamoahvictor12@gmail.com" className="hover:text-[#eca501] transition-colors duration-200">asamoahvictor12@gmail.com</a>
-                  <span>•</span>
-                  <a href="https://www.instagram.com/estudiox_graphics?igsh=bDJqNndjbDJuZndn&utm_source=qr" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors duration-200">INSTAGRAM</a>
-                  <span>•</span>
-                  <a href="https://www.linkedin.com/in/asamoah-victor-62831a190" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors duration-200">LINKEDIN</a>
-                </div>
-                <motion.p
-                  id="footer-attribution"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                  className="text-[10px] font-mono tracking-widest text-[#eca501] uppercase font-bold"
-                >
-                  © {new Date().getFullYear()} Victor Ohene Asamoah
-                </motion.p>
-              </div>
-            </footer>
+            {/* Interactive Design Disciplines list */}
+            <InteractiveDisciplines />
+
+            {/* Bottom Footer - Premium & Custom Purple Theme */}
+            <Footer />
           </motion.div>
         )}
       </AnimatePresence>
@@ -2093,15 +2211,15 @@ export default function App() {
         <button
           id="ambient-music-toggle"
           onClick={toggleMusic}
-          className="w-10 h-10 rounded-full bg-black border border-zinc-900/80 flex items-center justify-center text-white hover:text-white hover:bg-[#A855F7] hover:border-[#A855F7] shadow-[0_4px_16px_rgba(0,0,0,0.4)] cursor-pointer transition-all duration-300 active:scale-95"
+          className="w-10 h-10 rounded-full bg-white border border-zinc-200 flex items-center justify-center text-zinc-800 hover:text-white hover:bg-[#A855F7] hover:border-[#A855F7] shadow-lg cursor-pointer transition-all duration-300 active:scale-95"
           aria-label={isPlayingMusic ? "Pause background music" : "Play background music"}
         >
           {isPlayingMusic && !selectedMotionItem ? <Volume2 size={16} /> : <VolumeX size={16} />}
         </button>
         
         {/* Animated Sound Equalizer Status Ribbon */}
-        <div className="bg-black border border-zinc-900/80 px-2.5 py-1.5 rounded-full flex items-center gap-2 text-[10px] font-mono text-zinc-400 select-none shadow-[0_4px_16px_rgba(0,0,0,0.3)]">
-          <span className="text-[9px] uppercase tracking-wider font-bold">AMBIENT SOUND:</span>
+        <div className="bg-white border border-zinc-200 px-2.5 py-1.5 rounded-full flex items-center gap-2 text-[10px] font-mono text-zinc-600 select-none shadow-md">
+          <span className="text-[9px] uppercase tracking-wider font-bold text-zinc-500">AMBIENT SOUND:</span>
           {isPlayingMusic && !selectedMotionItem ? (
             <div className="flex items-end gap-[2px] h-2.5 w-3.5">
               <style>{`
@@ -2119,9 +2237,9 @@ export default function App() {
             </div>
           ) : (
             <div className="flex items-end gap-[2px] h-2.5 w-3.5 opacity-40">
-              <span className="w-[2px] h-[3px] bg-zinc-500 rounded-full" />
-              <span className="w-[2px] h-[5px] bg-zinc-500 rounded-full" />
-              <span className="w-[2px] h-[2px] bg-zinc-500 rounded-full" />
+              <span className="w-[2px] h-[3px] bg-zinc-400 rounded-full" />
+              <span className="w-[2px] h-[5px] bg-zinc-400 rounded-full" />
+              <span className="w-[2px] h-[2px] bg-zinc-400 rounded-full" />
             </div>
           )}
         </div>

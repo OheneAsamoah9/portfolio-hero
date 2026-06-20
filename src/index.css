@@ -36,8 +36,44 @@
   animation: marquee-rtl 28s linear infinite;
 }
 
+.animate-marquee-ltr-nonpause {
+  display: flex;
+  width: max-content;
+  animation: marquee-ltr 28s linear infinite;
+}
+
 .animate-marquee-ltr:hover,
 .animate-marquee-rtl:hover {
   animation-play-state: paused;
 }
 
+/* Hide default cursor on desktop when custom cursor is active */
+@media (pointer: fine) {
+  .custom-cursor-active,
+  .custom-cursor-active a,
+  .custom-cursor-active button,
+  .custom-cursor-active [role="button"],
+  .custom-cursor-active input,
+  .custom-cursor-active textarea,
+  .custom-cursor-active select,
+  .custom-cursor-active iframe,
+  .custom-cursor-active .cursor-pointer {
+    cursor: none !important;
+  }
+
+  /* Restore cursor for the header and its descendants */
+  .custom-cursor-active #main-header,
+  .custom-cursor-active #main-header a,
+  .custom-cursor-active #main-header button,
+  .custom-cursor-active #main-header [role="button"],
+  .custom-cursor-active #main-header .cursor-pointer {
+    cursor: auto !important;
+  }
+
+  .custom-cursor-active #main-header a,
+  .custom-cursor-active #main-header button,
+  .custom-cursor-active #main-header [role="button"],
+  .custom-cursor-active #main-header .cursor-pointer {
+    cursor: pointer !important;
+  }
+}
