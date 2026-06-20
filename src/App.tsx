@@ -708,20 +708,6 @@ interface MotionCardProps {
 }
 
 const MotionCard: React.FC<MotionCardProps> = ({ item, index, onClick, isPortrait = false }) => {
-  const [isHovered, setIsHovered] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    if (!videoRef.current) return;
-    if (isHovered) {
-      videoRef.current.play().catch((err) => {
-        console.log("Play interrupted or failed:", err);
-      });
-    } else {
-      videoRef.current.pause();
-    }
-  }, [isHovered]);
-
   const posterUrl = getVideoPosterUrl(item.videoUrl);
   const optimizedVideoUrl = getOptimizedVideoUrl(item.videoUrl);
 
@@ -734,19 +720,17 @@ const MotionCard: React.FC<MotionCardProps> = ({ item, index, onClick, isPortrai
       whileHover={{ scale: 1.03, rotate: index % 2 === 0 ? 1 : -1 }}
       transition={{ type: "spring", stiffness: 220, damping: 18 }}
       onClick={onClick}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
       className="group cursor-pointer flex flex-col gap-4 relative select-none"
     >
       <div className={`w-full ${isPortrait ? 'aspect-[9/16]' : 'aspect-[16/9]'} bg-zinc-950 border border-white/10 rounded-2xl overflow-hidden relative shadow-[0_12px_40px_rgba(0,0,0,0.6)] group-hover:border-[#eca501]/40 transition-[border-color] duration-300`}>
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 z-10 opacity-70 group-hover:opacity-40 transition-opacity duration-300 pointer-events-none" />
         
         <video
-          ref={videoRef}
+          autoPlay
           loop
           muted
           playsInline
-          preload="metadata"
+          preload="auto"
           poster={posterUrl}
           className="w-full h-full object-cover z-0 pointer-events-none scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
         >
