@@ -601,7 +601,7 @@ const InteractiveDisciplines: React.FC = () => {
   return (
     <section 
       id="disciplines-section" 
-      className="w-full bg-[#f0a202] py-14 md:py-18 px-6 sm:px-12 border-t border-black/10 relative z-10 flex flex-col items-center overflow-hidden"
+      className="w-full bg-white py-14 md:py-18 px-6 sm:px-12 border-t border-black/10 relative z-10 flex flex-col items-center overflow-hidden"
     >
       <div className="max-w-3xl w-full relative z-10 flex flex-col items-center text-center">
         <motion.div
@@ -1781,7 +1781,7 @@ export default function App() {
             {/* Portfolio Section - Overlapping Fan Design */}
             <section 
               id="projects" 
-              className="w-full bg-[#f0a202] pt-16 pb-24 md:pt-24 md:pb-32 px-6 sm:px-12 md:px-24 relative z-10 flex flex-col items-center overflow-hidden"
+              className="w-full bg-white pt-16 pb-24 md:pt-24 md:pb-32 px-6 sm:px-12 md:px-24 relative z-10 flex flex-col items-center overflow-hidden"
             >
               {/* Scrolling giant background text spanning the entire yellow background with opposite directions */}
               <div id="branding-marquee" className="absolute inset-x-0 top-0 bottom-0 pointer-events-none overflow-hidden select-none z-0 flex flex-col justify-around py-16 opacity-60">
@@ -1966,7 +1966,7 @@ export default function App() {
                 whileHover={{ scale: 1.15, rotate: -5 }}
                 whileTap={{ scale: 0.95 }}
                 transition={{ type: "spring", stiffness: 350, damping: 15 }}
-                className="w-12 h-12 rounded-full bg-[#f0a202] flex items-center justify-center text-black shadow-[0_4px_20px_rgba(240,162,2,0.15)] hover:shadow-[0_4px_24px_rgba(240,162,2,0.3)] cursor-pointer transition-shadow duration-300 focus:outline-none"
+                className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-black shadow-[0_4px_20px_rgba(255,255,255,0.15)] hover:shadow-[0_4px_24px_rgba(255,255,255,0.3)] cursor-pointer transition-shadow duration-300 focus:outline-none"
                 aria-label="Scroll to top"
               >
                 <ArrowUp size={20} strokeWidth={2.5} />
