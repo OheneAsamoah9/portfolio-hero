@@ -340,14 +340,37 @@ const ContactForm: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !email || !message) return;
     setIsSubmitting(true);
-    setTimeout(() => {
+
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/asamoahvictor12@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          message
+        })
+      });
+
+      const result = await response.json();
+      if (result.success === "true" || response.ok) {
+        setIsSubmitted(true);
+      } else {
+        alert("Failed to send message. Please try again or contact Victor directly at asamoahvictor12@gmail.com.");
+      }
+    } catch (error) {
+      console.error("Email submission error:", error);
+      alert("An error occurred. Please check your connection or email directly to asamoahvictor12@gmail.com.");
+    } finally {
       setIsSubmitting(false);
-      setIsSubmitted(true);
-    }, 1200);
+    }
   };
 
   if (isSubmitted) {
