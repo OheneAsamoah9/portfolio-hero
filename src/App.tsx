@@ -995,8 +995,6 @@ export default function App() {
   const [hoveredAppIndex, setHoveredAppIndex] = useState<number | null>(null);
   const [hoveredAIPlatformIndex, setHoveredAIPlatformIndex] = useState<number | null>(null);
   const [hoveredPersonalIndex, setHoveredPersonalIndex] = useState<number | null>(null);
-  const [flippedPersonalCards, setFlippedPersonalCards] = useState<Record<number, boolean>>({});
-  const [copiedPersonalIndex, setCopiedPersonalIndex] = useState<number | null>(null);
   const menuItems = ['HOME', 'ABOUT ME', 'MOTION', 'CONTACT'];
 
   // Background music audio controllers
@@ -1468,7 +1466,7 @@ export default function App() {
                       return (
                         <motion.div
                           key={app.name}
-                          onMouseEnter={() => setHoveredAppIndex(idx)}
+                          onMouseEnter={() => hoveredAppIndex === idx}
                           animate={{ scale, y: yOffset }}
                           transition={{ type: "spring", stiffness: 380, damping: 22 }}
                           className="flex items-center gap-4 group cursor-pointer origin-center relative"
@@ -1582,7 +1580,7 @@ export default function App() {
                       }
                     ].map((item, idx) => {
                       const isHovered = hoveredPersonalIndex === idx;
-                      const isFlipped = !!flippedPersonalCards[idx];
+                      const isFlipped = isHovered;
                       const scale = isHovered ? 1.04 : 1.0;
                       const yOffset = isHovered ? -4 : 0;
                       
@@ -1593,12 +1591,7 @@ export default function App() {
                             className="relative w-full aspect-[3/4] cursor-pointer select-none"
                             style={{ perspective: 1200, zIndex: isHovered ? 30 : 10 }}
                             onMouseEnter={() => setHoveredPersonalIndex(idx)}
-                            onClick={() => {
-                              setFlippedPersonalCards(prev => ({
-                                ...prev,
-                                [idx]: !prev[idx]
-                              }));
-                            }}
+                            onMouseLeave={() => setHoveredPersonalIndex(null)}
                           >
                             <motion.div
                               animate={{ 
@@ -1635,66 +1628,23 @@ export default function App() {
                                 />
                               </div>
 
-                              {/* Card Back: Orange and Purple design with the attached links and names */}
+                              {/* Card Back: Grayscale variant with purple & orange color style, showing ONLY the image */}
                               <div 
-                                className="absolute inset-0 w-full h-full rounded-2xl overflow-hidden bg-zinc-950 border border-zinc-800 flex flex-col justify-between p-5"
+                                className="absolute inset-0 w-full h-full rounded-2xl overflow-hidden bg-zinc-950 border border-zinc-200/60"
                                 style={{ 
                                   backfaceVisibility: "hidden",
                                   WebkitBackfaceVisibility: "hidden",
                                   transform: "rotateY(180deg)"
                                 }}
                               >
-                                {/* Textured Backdrop Image with Blended Purple and Orange Glows */}
-                                <div className="absolute inset-0 w-full h-full select-none pointer-events-none z-0">
-                                  <img 
-                                    src={item.backUrl} 
-                                    alt={item.name} 
-                                    className="w-full h-full object-cover opacity-35 filter grayscale saturate-0 contrast-125 brightness-90 blur-[0.5px]" 
-                                    referrerPolicy="no-referrer"
-                                  />
-                                  <div className="absolute inset-0 bg-gradient-to-tr from-[#A855F7]/65 via-[#A855F7]/20 to-[#F97316]/65 mix-blend-color" />
-                                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-zinc-950/70" />
-                                </div>
-
-                                {/* Content Details */}
-                                <div className="relative z-10 flex flex-col h-full justify-between pointer-events-none">
-                                  <div className="text-left">
-                                    <span className="text-[9px] font-mono tracking-widest text-[#F97316] uppercase font-bold">{item.tag}</span>
-                                    <h4 className="text-white font-display font-semibold text-base uppercase tracking-wide mt-1">{item.name}</h4>
-                                  </div>
-
-                                  <div className="flex flex-col gap-2.5 mt-auto pointer-events-auto" onClick={(e) => e.stopPropagation()}>
-                                    <span className="text-[8px] font-mono text-zinc-400 uppercase tracking-widest block text-left">Attached Link</span>
-                                    
-                                    <div className="flex flex-col gap-2 bg-zinc-900/90 border border-zinc-800/80 p-2.5 rounded-xl backdrop-blur-md">
-                                      <a 
-                                        href={item.backUrl} 
-                                        target="_blank" 
-                                        rel="noopener noreferrer"
-                                        className="text-[10px] font-mono text-[#A855F7] hover:text-[#F97316] break-all transition-colors duration-200 flex items-start gap-1.5 leading-relaxed group/link text-left"
-                                      >
-                                        <svg className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-zinc-500 group-hover/link:text-[#F97316] transition-colors duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                                        </svg>
-                                        <span className="underline decoration-dotted decoration-[#A855F7]/30 hover:decoration-[#F97316]/50">{item.backUrl}</span>
-                                      </a>
-                                      
-                                      <button
-                                        onClick={() => {
-                                          navigator.clipboard.writeText(item.backUrl);
-                                          setCopiedPersonalIndex(idx);
-                                          setTimeout(() => setCopiedPersonalIndex(null), 2000);
-                                        }}
-                                        className="w-full text-center py-1.5 px-3 bg-gradient-to-r from-[#A855F7] to-[#F97316] hover:from-[#A855F7]/90 hover:to-[#F97316]/90 text-white font-mono text-[9px] uppercase tracking-widest font-bold rounded-lg transition-all duration-300 shadow-sm flex items-center justify-center gap-1.5"
-                                      >
-                                        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 00-2 2v2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
-                                        </svg>
-                                        {copiedPersonalIndex === idx ? "Copied!" : "Copy Link"}
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
+                                <img 
+                                  src={item.backUrl} 
+                                  alt={item.name} 
+                                  className="w-full h-full object-cover filter grayscale contrast-125 brightness-100 select-none" 
+                                  referrerPolicy="no-referrer"
+                                  loading="lazy"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-tr from-[#A855F7]/35 via-[#A855F7]/10 to-[#F97316]/35 mix-blend-color pointer-events-none" />
                               </div>
                             </motion.div>
                           </div>
@@ -2016,7 +1966,7 @@ export default function App() {
               </div>
 
               {/* Main Hero Body */}
-              <main id="hero-main" className="flex-1 flex flex-col justify-start pt-[45vh] sm:pt-[42vh] md:pt-[45vh] lg:pt-[48vh] pb-16 sm:pb-20 md:pb-24 pl-6 sm:pl-12 md:pl-16 lg:pl-20 xl:pl-24 pr-6 sm:pr-12 md:pr-32 lg:pr-40 xl:pr-48 max-w-7xl w-full mx-auto select-none relative z-10">
+              <main id="hero-main" className="flex-1 flex flex-col justify-start pt-[28vh] sm:pt-[26vh] md:pt-[28vh] lg:pt-[30vh] pb-16 sm:pb-20 md:pb-24 pl-6 sm:pl-12 md:pl-16 lg:pl-20 xl:pl-24 pr-6 sm:pr-12 md:pr-32 lg:pr-40 xl:pr-48 max-w-7xl w-full mx-auto select-none relative z-10">
                 <div id="hero-content" className="max-w-3xl select-text w-full font-serif text-black">
                   
                   {/* Greeting tag */}
