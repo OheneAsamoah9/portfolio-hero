@@ -598,6 +598,7 @@ const VideoPlaceholder: React.FC = () => {
 // Interactive Design Disciplines List with Raise-up & Highlight Animations
 // Interactive Design Disciplines List scrolling from left to right in one line with dots
 const InteractiveDisciplines: React.FC = () => {
+  const [isHovered, setIsHovered] = useState(false);
   const disciplines = [
     "Brand Identity",
     "Graphic Design",
@@ -611,7 +612,14 @@ const InteractiveDisciplines: React.FC = () => {
   return (
     <section 
       id="disciplines-section" 
-      className="w-full bg-zinc-50 py-8 md:py-10 border-t border-b border-zinc-200/60 relative z-10 flex flex-col items-center overflow-hidden"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{
+        backgroundColor: isHovered ? '#F97316' : '#FAFAFA',
+        borderColor: isHovered ? 'rgba(234, 88, 12, 0.4)' : 'rgba(228, 228, 231, 0.6)',
+        transition: 'all 0.3s ease-in-out'
+      }}
+      className="w-full py-8 md:py-10 border-t border-b relative z-10 flex flex-col items-center overflow-hidden"
     >
       <div className="w-full overflow-hidden flex relative">
         <div className="animate-marquee-ltr-nonpause flex flex-row w-max flex-nowrap items-center gap-0">
@@ -619,10 +627,22 @@ const InteractiveDisciplines: React.FC = () => {
             <div key={listIdx} className="flex items-center flex-nowrap whitespace-nowrap">
               {disciplines.map((item, idx) => (
                 <div key={idx} className="flex items-center flex-nowrap">
-                  <span className="text-lg sm:text-xl md:text-2xl font-display font-black text-zinc-900 tracking-wider uppercase select-none">
+                  <span 
+                    style={{ 
+                      color: isHovered ? '#FFFFFF' : '#18181B',
+                      transition: 'color 0.3s ease-in-out'
+                    }}
+                    className="text-lg sm:text-xl md:text-2xl font-display font-black tracking-wider uppercase select-none"
+                  >
                     {item}
                   </span>
-                  <span className="text-lg sm:text-xl md:text-2xl font-display font-black text-[#A855F7] mx-6 select-none">
+                  <span 
+                    style={{ 
+                      color: isHovered ? '#FFFFFF' : '#A855F7',
+                      transition: 'color 0.3s ease-in-out'
+                    }}
+                    className="text-lg sm:text-xl md:text-2xl font-display font-black mx-6 select-none"
+                  >
                     •
                   </span>
                 </div>
