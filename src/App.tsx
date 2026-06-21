@@ -699,18 +699,31 @@ interface MotionCardProps {
 
 const MotionCard: React.FC<MotionCardProps> = ({ item, index, onClick, isPortrait = false }) => {
   const isMobile = useIsMobile();
-  const [isHovered, setIsHovered] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    if (isMobile || !videoRef.current) return;
-    if (isHovered) {
-      videoRef.current.play().catch(() => {});
-    } else {
-      videoRef.current.pause();
-      videoRef.current.currentTime = 0;
-    }
-  }, [isHovered, isMobile]);
+    const video = videoRef.current;
+    if (!video) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      },
+      {
+        threshold: 0.1,
+        rootMargin: "50px",
+      }
+    );
+
+    observer.observe(video);
+    return () => {
+      if (video) observer.unobserve(video);
+    };
+  }, []);
 
   const posterUrl = getVideoPosterUrl(item.videoUrl, isMobile ? 480 : 800);
   const optimizedVideoUrl = getOptimizedVideoUrl(item.videoUrl, isMobile ? 480 : 800);
@@ -724,34 +737,22 @@ const MotionCard: React.FC<MotionCardProps> = ({ item, index, onClick, isPortrai
       whileHover={!isMobile ? { scale: 1.03, rotate: index % 2 === 0 ? 1 : -1 } : undefined}
       transition={{ type: "spring", stiffness: 220, damping: 18 }}
       onClick={onClick}
-      onMouseEnter={() => !isMobile && setIsHovered(true)}
-      onMouseLeave={() => !isMobile && setIsHovered(false)}
       className="group cursor-pointer flex flex-col gap-4 relative select-none"
     >
       <div className={`w-full ${isPortrait ? 'aspect-[9/16]' : 'aspect-[16/9]'} bg-white border border-zinc-200 rounded-2xl overflow-hidden relative shadow-[0_8px_24px_rgba(0,0,0,0.06)] group-hover:border-[#A855F7]/40 transition-[border-color] duration-300`}>
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/10 z-10 opacity-70 group-hover:opacity-40 transition-opacity duration-300 pointer-events-none" />
         
-        {isMobile ? (
-          <img
-            src={posterUrl}
-            alt={item.title}
-            loading="lazy"
-            className="w-full h-full object-cover z-0 scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
-            referrerPolicy="no-referrer"
-          />
-        ) : (
-          <video
-            ref={videoRef}
-            loop
-            muted
-            playsInline
-            preload="metadata"
-            poster={posterUrl}
-            className="w-full h-full object-cover z-0 pointer-events-none scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
-          >
-            <source src={optimizedVideoUrl} type="video/mp4" />
-          </video>
-        )}
+        <video
+          ref={videoRef}
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          poster={posterUrl}
+          className="w-full h-full object-cover z-0 pointer-events-none scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
+        >
+          <source src={optimizedVideoUrl} type="video/mp4" />
+        </video>
 
         <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
           <div className={`${isPortrait ? 'w-12 h-12' : 'w-14 h-14'} rounded-full bg-[#A855F7] text-white flex items-center justify-center shadow-lg group-hover:opacity-100 group-hover:scale-110 lg:opacity-0 transition-all duration-300`}>
@@ -1703,70 +1704,79 @@ export default function App() {
             {/* Ambient background accent shimmer */}
             <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,rgba(168,85,247,0.04)_0%,transparent_70%)] pointer-events-none" />
             <section id="contact-main" className="w-full pt-4 pb-16 px-6 sm:px-12 md:px-24 relative z-10 flex flex-col items-center select-none flex-1">
-              <div className="max-w-2xl w-full mx-auto">
-                {/* Center Column: Form and channels */}
-                <motion.div 
-                  initial={{ opacity: 0, y: 35 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6 }}
-                  className="w-full flex flex-col gap-8"
-                >
-                  <div>
-                    <span className="text-[10px] font-mono tracking-[0.25em] text-[#A855F7] uppercase font-bold">
-                      GET IN TOUCH // DIRECT LINE
-                    </span>
-                    <h1 className="text-zinc-900 text-3xl sm:text-4xl md:text-5xl font-display font-black tracking-tight uppercase mt-3 leading-tight font-sans">
-                      LET'S SPARK SOMETHING
-                    </h1>
-                    <p className="text-zinc-600 text-sm sm:text-base mt-2.5 leading-relaxed font-mono">
-                      Whether you have a commercial campaign, motion project, spatial branding enquiry or general agency outreach, reach out directly.
-                    </p>
-                  </div>
-
-                  {/* Form comes first, before details of email and contact */}
-                  <div id="contact-form-container" className="w-full select-text">
-                    <ContactForm />
-                  </div>
-
-                  {/* Direct details box with custom glass design */}
-                  <div className="bg-zinc-50 border border-zinc-200 rounded-2xl p-6 sm:p-8 flex flex-col gap-6 backdrop-blur-md shadow-lg relative overflow-hidden group hover:border-[#A855F7]/20 transition-colors">
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-[#A855F7]/5 rounded-full blur-3xl pointer-events-none group-hover:bg-[#A855F7]/10 transition-colors" />
-                    
-                    <div className="flex flex-col gap-1">
-                      <span className="text-[10px] font-mono tracking-widest text-[#A855F7] uppercase font-bold">DIRECT MAIL :</span>
-                      <a 
-                        href="mailto:asamoahvictor12@gmail.com" 
-                        className="text-zinc-800 hover:text-[#A855F7] text-base md:text-lg font-semibold font-sans flex items-center gap-2 transition-colors duration-200 mt-1 cursor-pointer select-text"
-                      >
-                        <Mail size={16} /> asamoahvictor12@gmail.com
-                      </a>
+              <div className="max-w-5xl w-full mx-auto">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+                  {/* Left Column: Get in Touch & Contact Form */}
+                  <motion.div 
+                    initial={{ opacity: 0, y: 35 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6 }}
+                    className="lg:col-span-7 flex flex-col gap-8 w-full"
+                  >
+                    <div>
+                      <span className="text-[10px] font-mono tracking-[0.25em] text-[#A855F7] uppercase font-bold">
+                        GET IN TOUCH // DIRECT LINE
+                      </span>
+                      <h1 className="text-zinc-900 text-3xl sm:text-4xl md:text-5xl font-display font-black tracking-tight uppercase mt-3 leading-tight font-sans">
+                        LET'S SPARK SOMETHING
+                      </h1>
+                      <p className="text-zinc-600 text-sm sm:text-base mt-2.5 leading-relaxed font-mono">
+                        Whether you have a commercial campaign, motion project, spatial branding enquiry or general agency outreach, reach out directly.
+                      </p>
                     </div>
 
-                    <div className="flex flex-col gap-1 border-t border-zinc-200/50 pt-5">
-                      <span className="text-[10px] font-mono tracking-widest text-[#A855F7] uppercase font-bold">SOCIAL DIRECT :</span>
-                      <div className="flex gap-4 items-center mt-2.5 font-sans text-xs">
+                    <div id="contact-form-container" className="w-full select-text">
+                      <ContactForm />
+                    </div>
+                  </motion.div>
+
+                  {/* Right Column: Direct Mail / Social Channels */}
+                  <motion.div 
+                    initial={{ opacity: 0, y: 35 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.1 }}
+                    className="lg:col-span-5 w-full lg:sticky lg:top-28"
+                  >
+                    <div className="bg-zinc-50 border border-zinc-200 rounded-2xl p-6 sm:p-8 flex flex-col gap-6 backdrop-blur-md shadow-lg relative overflow-hidden group hover:border-[#A855F7]/20 transition-colors">
+                      <div className="absolute top-0 right-0 w-32 h-32 bg-[#A855F7]/5 rounded-full blur-3xl pointer-events-none group-hover:bg-[#A855F7]/10 transition-colors" />
+                      
+                      <div className="flex flex-col gap-1">
+                        <span className="text-[10px] font-mono tracking-widest text-[#A855F7] uppercase font-bold">DIRECT MAIL :</span>
                         <a 
-                          href="https://www.instagram.com/estudiox_graphics?igsh=bDJqNndjbDJuZndn&utm_source=qr" 
-                          target="_blank" 
-                          rel="noopener noreferrer" 
-                          className="hover:text-[#A855F7] text-zinc-600 transition-colors duration-200 uppercase font-bold cursor-pointer"
+                          href="mailto:asamoahvictor12@gmail.com" 
+                          className="text-zinc-800 hover:text-[#A855F7] text-base md:text-lg font-semibold font-sans flex items-center gap-2 transition-colors duration-200 mt-1 cursor-pointer select-text"
                         >
-                          Instagram
-                        </a>
-                        <span className="text-zinc-300">/</span>
-                        <a 
-                          href="https://www.linkedin.com/in/asamoah-victor-62831a190" 
-                          target="_blank" 
-                          rel="noopener noreferrer" 
-                          className="hover:text-[#A855F7] text-zinc-600 transition-colors duration-200 uppercase font-bold cursor-pointer"
-                        >
-                          LinkedIn
+                          <Mail size={16} /> asamoahvictor12@gmail.com
                         </a>
                       </div>
+
+                      <div className="flex flex-col gap-1 border-t border-zinc-200/50 pt-5">
+                        <span className="text-[10px] font-mono tracking-widest text-[#A855F7] uppercase font-bold">SOCIAL DIRECT :</span>
+                        <div className="flex gap-4 items-center mt-2.5 font-sans text-xs">
+                          <a 
+                            href="https://www.instagram.com/estudiox_graphics?igsh=bDJqNndjbDJuZndn&utm_source=qr" 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="hover:text-[#A855F7] text-zinc-600 transition-colors duration-200 uppercase font-bold cursor-pointer"
+                          >
+                            Instagram
+                          </a>
+                          <span className="text-zinc-300">/</span>
+                          <a 
+                            href="https://www.linkedin.com/in/asamoah-victor-62831a190" 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="hover:text-[#A855F7] text-zinc-600 transition-colors duration-200 uppercase font-bold cursor-pointer"
+                          >
+                            LinkedIn
+                          </a>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </motion.div>
+                  </motion.div>
+                </div>
               </div>
             </section>
 
