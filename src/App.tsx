@@ -635,7 +635,7 @@ const InteractiveDisciplines: React.FC = () => {
                      }}
                      className="text-lg sm:text-xl md:text-2xl font-display font-black tracking-wider uppercase select-none"
                   >
-                    {item}
+                     {item}
                   </span>
                   <span 
                      style={{ 
@@ -644,7 +644,7 @@ const InteractiveDisciplines: React.FC = () => {
                      }}
                      className="text-lg sm:text-xl md:text-2xl font-display font-black mx-6 select-none"
                   >
-                    •
+                     •
                   </span>
                 </div>
               ))}
@@ -995,6 +995,8 @@ export default function App() {
   const [hoveredAppIndex, setHoveredAppIndex] = useState<number | null>(null);
   const [hoveredAIPlatformIndex, setHoveredAIPlatformIndex] = useState<number | null>(null);
   const [hoveredPersonalIndex, setHoveredPersonalIndex] = useState<number | null>(null);
+  const [flippedPersonalCards, setFlippedPersonalCards] = useState<Record<number, boolean>>({});
+  const [copiedPersonalIndex, setCopiedPersonalIndex] = useState<number | null>(null);
   const menuItems = ['HOME', 'ABOUT ME', 'MOTION', 'CONTACT'];
 
   // Background music audio controllers
@@ -1153,7 +1155,7 @@ export default function App() {
         if (element) {
           element.scrollIntoView({ behavior: 'smooth' });
         }
-      }, 150);
+      }, 155);
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -1550,41 +1552,159 @@ export default function App() {
                   </span>
                   <div 
                     id="personal-gallery" 
-                    className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+                    className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
                     onMouseLeave={() => setHoveredPersonalIndex(null)}
                   >
                     {[
-                      { name: "Football Lover", tag: "SPORTS & FOCUS", url: "https://i.im.ge/QMPM5Or/Football_Lover.jpg" },
-                      { name: "Gym Enthusiast", tag: "STRENGTH & GRIT", url: "https://res.cloudinary.com/dqjxpupx7/image/upload/v1782038207/Gym_Enthusiast_usv4ip.jpg" },
-                      { name: "Friendly & Funny", tag: "VIBES & CONNECTIONS", url: "https://i.im.ge/QMPM9jW/Friendly_and_funny.jpg" },
-                      { name: "Music Lover", tag: "RHYTHM & FLOW", url: "https://res.cloudinary.com/dqjxpupx7/image/upload/v1782038215/Music_Lover_wjtmb4.jpg" }
+                      { 
+                        name: "Football Lover", 
+                        tag: "SPORTS & FOCUS", 
+                        url: "https://i.im.ge/QMPM5Or/Football_Lover.jpg",
+                        backUrl: "https://res.cloudinary.com/dqjxpupx7/image/upload/v1782039147/Football_Lover_bg1yak.png" 
+                      },
+                      { 
+                        name: "Gym Enthusiast", 
+                        tag: "STRENGTH & GRIT", 
+                        url: "https://res.cloudinary.com/dqjxpupx7/image/upload/v1782038207/Gym_Enthusiast_usv4ip.jpg",
+                        backUrl: "https://res.cloudinary.com/dqjxpupx7/image/upload/v1782039147/Gym_Enthusiast_ahptso.png" 
+                      },
+                      { 
+                        name: "Friendly & Funny", 
+                        tag: "VIBES & CONNECTIONS", 
+                        url: "https://i.im.ge/QMPM9jW/Friendly_and_funny.jpg",
+                        backUrl: "https://res.cloudinary.com/dqjxpupx7/image/upload/v1782039147/Friendly_and_funny_zmy1dr.png" 
+                      },
+                      { 
+                        name: "Music Lover", 
+                        tag: "RHYTHM & FLOW", 
+                        url: "https://res.cloudinary.com/dqjxpupx7/image/upload/v1782038215/Music_Lover_wjtmb4.jpg",
+                        backUrl: "https://res.cloudinary.com/dqjxpupx7/image/upload/v1782039147/Music_Lover_lp0qv2.png" 
+                      }
                     ].map((item, idx) => {
                       const isHovered = hoveredPersonalIndex === idx;
-                      const scale = isHovered ? 1.05 : 1.0;
+                      const isFlipped = !!flippedPersonalCards[idx];
+                      const scale = isHovered ? 1.04 : 1.0;
                       const yOffset = isHovered ? -4 : 0;
                       
                       return (
-                        <motion.div
-                          key={item.name}
-                          onMouseEnter={() => setHoveredPersonalIndex(idx)}
-                          animate={{ scale, y: yOffset }}
-                          transition={{ type: "spring", stiffness: 350, damping: 22 }}
-                          className="relative aspect-[3/4] overflow-hidden bg-white border border-zinc-200/60 hover:border-[#A855F7]/40 rounded-2xl cursor-pointer shadow-sm group"
-                          style={{ zIndex: isHovered ? 30 : 10 }}
-                        >
-                          <img 
-                            src={item.url} 
-                            alt={item.name} 
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out select-none" 
-                            referrerPolicy="no-referrer"
-                            loading="lazy"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/45 to-transparent z-10 opacity-75 group-hover:opacity-85 transition-opacity duration-300 pointer-events-none" />
-                          <div className="absolute bottom-5 left-5 right-5 z-20 flex flex-col gap-1.5 text-left pointer-events-none">
-                            <span className="text-[9px] font-mono tracking-widest text-[#A855F7] uppercase font-bold">{item.tag}</span>
-                            <h4 className="text-white font-display font-semibold text-base uppercase tracking-wide">{item.name}</h4>
+                        <div key={item.name} className="flex flex-col gap-4">
+                          {/* 3D Flip Card Container */}
+                          <div 
+                            className="relative w-full aspect-[3/4] cursor-pointer select-none"
+                            style={{ perspective: 1200, zIndex: isHovered ? 30 : 10 }}
+                            onMouseEnter={() => setHoveredPersonalIndex(idx)}
+                            onClick={() => {
+                              setFlippedPersonalCards(prev => ({
+                                ...prev,
+                                [idx]: !prev[idx]
+                              }));
+                            }}
+                          >
+                            <motion.div
+                              animate={{ 
+                                rotateY: isFlipped ? 180 : 0,
+                                scale,
+                                y: yOffset
+                              }}
+                              transition={{ 
+                                rotateY: { duration: 0.6, ease: "easeInOut" },
+                                scale: { type: "spring", stiffness: 350, damping: 22 },
+                                y: { type: "spring", stiffness: 350, damping: 22 }
+                              }}
+                              style={{ 
+                                transformStyle: "preserve-3d",
+                                width: "100%",
+                                height: "100%"
+                              }}
+                              className="relative w-full h-full shadow-sm hover:shadow-md transition-shadow duration-300"
+                            >
+                              {/* Card Front: Clean full-color image with no gradient overlays */}
+                              <div 
+                                className="absolute inset-0 w-full h-full rounded-2xl overflow-hidden bg-white border border-zinc-200/60"
+                                style={{ 
+                                  backfaceVisibility: "hidden",
+                                  WebkitBackfaceVisibility: "hidden"
+                                }}
+                              >
+                                <img 
+                                  src={item.url} 
+                                  alt={item.name} 
+                                  className="w-full h-full object-cover select-none" 
+                                  referrerPolicy="no-referrer"
+                                  loading="lazy"
+                                />
+                              </div>
+
+                              {/* Card Back: Orange and Purple design with the attached links and names */}
+                              <div 
+                                className="absolute inset-0 w-full h-full rounded-2xl overflow-hidden bg-zinc-950 border border-zinc-800 flex flex-col justify-between p-5"
+                                style={{ 
+                                  backfaceVisibility: "hidden",
+                                  WebkitBackfaceVisibility: "hidden",
+                                  transform: "rotateY(180deg)"
+                                }}
+                              >
+                                {/* Textured Backdrop Image with Blended Purple and Orange Glows */}
+                                <div className="absolute inset-0 w-full h-full select-none pointer-events-none z-0">
+                                  <img 
+                                    src={item.backUrl} 
+                                    alt={item.name} 
+                                    className="w-full h-full object-cover opacity-35 filter grayscale saturate-0 contrast-125 brightness-90 blur-[0.5px]" 
+                                    referrerPolicy="no-referrer"
+                                  />
+                                  <div className="absolute inset-0 bg-gradient-to-tr from-[#A855F7]/65 via-[#A855F7]/20 to-[#F97316]/65 mix-blend-color" />
+                                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-zinc-950/70" />
+                                </div>
+
+                                {/* Content Details */}
+                                <div className="relative z-10 flex flex-col h-full justify-between pointer-events-none">
+                                  <div className="text-left">
+                                    <span className="text-[9px] font-mono tracking-widest text-[#F97316] uppercase font-bold">{item.tag}</span>
+                                    <h4 className="text-white font-display font-semibold text-base uppercase tracking-wide mt-1">{item.name}</h4>
+                                  </div>
+
+                                  <div className="flex flex-col gap-2.5 mt-auto pointer-events-auto" onClick={(e) => e.stopPropagation()}>
+                                    <span className="text-[8px] font-mono text-zinc-400 uppercase tracking-widest block text-left">Attached Link</span>
+                                    
+                                    <div className="flex flex-col gap-2 bg-zinc-900/90 border border-zinc-800/80 p-2.5 rounded-xl backdrop-blur-md">
+                                      <a 
+                                        href={item.backUrl} 
+                                        target="_blank" 
+                                        rel="noopener noreferrer"
+                                        className="text-[10px] font-mono text-[#A855F7] hover:text-[#F97316] break-all transition-colors duration-200 flex items-start gap-1.5 leading-relaxed group/link text-left"
+                                      >
+                                        <svg className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-zinc-500 group-hover/link:text-[#F97316] transition-colors duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                        </svg>
+                                        <span className="underline decoration-dotted decoration-[#A855F7]/30 hover:decoration-[#F97316]/50">{item.backUrl}</span>
+                                      </a>
+                                      
+                                      <button
+                                        onClick={() => {
+                                          navigator.clipboard.writeText(item.backUrl);
+                                          setCopiedPersonalIndex(idx);
+                                          setTimeout(() => setCopiedPersonalIndex(null), 2000);
+                                        }}
+                                        className="w-full text-center py-1.5 px-3 bg-gradient-to-r from-[#A855F7] to-[#F97316] hover:from-[#A855F7]/90 hover:to-[#F97316]/90 text-white font-mono text-[9px] uppercase tracking-widest font-bold rounded-lg transition-all duration-300 shadow-sm flex items-center justify-center gap-1.5"
+                                      >
+                                        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 00-2 2v2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                                        </svg>
+                                        {copiedPersonalIndex === idx ? "Copied!" : "Copy Link"}
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </motion.div>
                           </div>
-                        </motion.div>
+
+                          {/* Card Caption Below Image */}
+                          <div className="flex flex-col gap-1 text-left px-1 pointer-events-none">
+                            <span className="text-[9px] font-mono tracking-widest text-[#A855F7] uppercase font-bold">{item.tag}</span>
+                            <h4 className="text-zinc-800 font-display font-semibold text-sm uppercase tracking-wide leading-tight">{item.name}</h4>
+                          </div>
+                        </div>
                       );
                     })}
                   </div>
