@@ -277,6 +277,17 @@ const PORTFOLIO_ITEMS: PortfolioItem[] = [
   }
 ];
 
+const BRAND_LOGOS = [
+  "https://i.im.ge/QMNGZcK/logo-11-t600.webp",
+  "https://i.im.ge/QMNGW0F/logo-10-t600.webp",
+  "https://i.im.ge/QMNGKe9/logo-09-t600.webp",
+  "https://i.im.ge/QMNGkC8/logo-07-t600.webp",
+  "https://i.im.ge/QMNGfDX/logo-08-t600.webp",
+  "https://i.im.ge/QMNGzvh/logo-06-t600.webp",
+  "https://i.im.ge/QMNGv6Y/logo-04-t600.webp",
+  "https://i.im.ge/QMNGpSM/logo-05-t600.webp"
+];
+
 const InteractiveBox: React.FC<{ item: PortfolioItem; index: number; className?: string; style?: React.CSSProperties; onClick?: () => void }> = ({ item, index, className, style, onClick }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -304,12 +315,12 @@ const InteractiveBox: React.FC<{ item: PortfolioItem; index: number; className?:
       }}
       className={`relative aspect-[1080/1350] overflow-hidden bg-white border border-zinc-200 rounded-2xl cursor-pointer select-none shadow-[0_8px_24px_rgba(0,0,0,0.06)] hover:border-[#A855F7]/50 transition-[border-color,box-shadow,transform] duration-300 group ${className || ""}`}
     >
-      {/* Visual Image / Artwork Design - No text or details */}
       <motion.img
         id={`portfolio-img-${item.id}`}
         src={item.imageUrl}
         alt={item.title}
         referrerPolicy="no-referrer"
+        loading="lazy"
         animate={{
           scale: isHovered ? 1.05 : 1,
           filter: isHovered ? "brightness(1) contrast(1.02)" : "brightness(0.95)",
@@ -624,22 +635,35 @@ const InteractiveDisciplines: React.FC = () => {
   );
 };
 
-const getOptimizedVideoUrl = (url: string) => {
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  return isMobile;
+};
+
+const getOptimizedVideoUrl = (url: string, width?: number) => {
   if (!url) return '';
   if (url.includes('res.cloudinary.com')) {
     if (url.includes('/upload/f_auto') || url.includes('/upload/q_auto') || url.includes('/upload/c_')) {
       return url;
     }
-    return url.replace('/video/upload/', '/video/upload/f_auto,q_auto/');
+    const transformation = width ? `f_auto,q_auto,w_${width},c_scale/` : 'f_auto,q_auto/';
+    return url.replace('/video/upload/', `/video/upload/${transformation}`);
   }
   return url;
 };
 
-const getVideoPosterUrl = (url: string) => {
+const getVideoPosterUrl = (url: string, width?: number) => {
   if (!url) return undefined;
   if (url.includes('res.cloudinary.com')) {
+    const transformation = width ? `f_auto,q_auto,so_auto,w_${width},c_scale/` : 'f_auto,q_auto,so_auto/';
     return url
-      .replace('/video/upload/', '/video/upload/f_auto,q_auto,so_auto/')
+      .replace('/video/upload/', `/video/upload/${transformation}`)
       .replace(/\.mp4$/i, '.jpg');
   }
   return undefined;
@@ -653,8 +677,22 @@ interface MotionCardProps {
 }
 
 const MotionCard: React.FC<MotionCardProps> = ({ item, index, onClick, isPortrait = false }) => {
-  const posterUrl = getVideoPosterUrl(item.videoUrl);
-  const optimizedVideoUrl = getOptimizedVideoUrl(item.videoUrl);
+  const isMobile = useIsMobile();
+  const [isHovered, setIsHovered] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (isMobile || !videoRef.current) return;
+    if (isHovered) {
+      videoRef.current.play().catch(() => {});
+    } else {
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0;
+    }
+  }, [isHovered, isMobile]);
+
+  const posterUrl = getVideoPosterUrl(item.videoUrl, isMobile ? 480 : 800);
+  const optimizedVideoUrl = getOptimizedVideoUrl(item.videoUrl, isMobile ? 480 : 800);
 
   return (
     <motion.div
@@ -662,25 +700,37 @@ const MotionCard: React.FC<MotionCardProps> = ({ item, index, onClick, isPortrai
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
-      whileHover={{ scale: 1.03, rotate: index % 2 === 0 ? 1 : -1 }}
+      whileHover={!isMobile ? { scale: 1.03, rotate: index % 2 === 0 ? 1 : -1 } : undefined}
       transition={{ type: "spring", stiffness: 220, damping: 18 }}
       onClick={onClick}
+      onMouseEnter={() => !isMobile && setIsHovered(true)}
+      onMouseLeave={() => !isMobile && setIsHovered(false)}
       className="group cursor-pointer flex flex-col gap-4 relative select-none"
     >
-      <div className={`w-full ${isPortrait ? 'aspect-[9/16]' : 'aspect-[16/9]'} bg-white border border-zinc-200 rounded-2xl overflow-hidden relative shadow-[0_8px_24px_rgba(0,0,0,0.06)] group-hover:border-[#A855F7]/40 transition-[border-color] duration-305`}>
+      <div className={`w-full ${isPortrait ? 'aspect-[9/16]' : 'aspect-[16/9]'} bg-white border border-zinc-200 rounded-2xl overflow-hidden relative shadow-[0_8px_24px_rgba(0,0,0,0.06)] group-hover:border-[#A855F7]/40 transition-[border-color] duration-300`}>
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/10 z-10 opacity-70 group-hover:opacity-40 transition-opacity duration-300 pointer-events-none" />
         
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          poster={posterUrl}
-          className="w-full h-full object-cover z-0 pointer-events-none scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
-        >
-          <source src={optimizedVideoUrl} type="video/mp4" />
-        </video>
+        {isMobile ? (
+          <img
+            src={posterUrl}
+            alt={item.title}
+            loading="lazy"
+            className="w-full h-full object-cover z-0 scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
+            referrerPolicy="no-referrer"
+          />
+        ) : (
+          <video
+            ref={videoRef}
+            loop
+            muted
+            playsInline
+            preload="metadata"
+            poster={posterUrl}
+            className="w-full h-full object-cover z-0 pointer-events-none scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
+          >
+            <source src={optimizedVideoUrl} type="video/mp4" />
+          </video>
+        )}
 
         <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
           <div className={`${isPortrait ? 'w-12 h-12' : 'w-14 h-14'} rounded-full bg-[#A855F7] text-white flex items-center justify-center shadow-lg group-hover:opacity-100 group-hover:scale-110 lg:opacity-0 transition-all duration-300`}>
@@ -908,6 +958,7 @@ const CustomCursor: React.FC = () => {
 };
 
 export default function App() {
+  const isMobile = useIsMobile();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const [selectedItem, setSelectedItem] = useState<PortfolioItem | null>(null);
@@ -1105,7 +1156,7 @@ export default function App() {
             e.preventDefault();
             handleNavigate('home');
           }}
-          className="text-white font-display font-black text-[11px] sm:text-xs tracking-widest select-none hover:text-[#eca501] transition-colors duration-300 relative z-10 pl-0.5 mr-5 md:mr-6 whitespace-nowrap inline-block"
+          className="text-white font-display font-black text-[11px] sm:text-xs tracking-widest select-none hover:text-black transition-colors duration-300 relative z-10 pl-0.5 mr-5 md:mr-6 whitespace-nowrap inline-block"
         >
           V A
         </a>
@@ -1132,7 +1183,7 @@ export default function App() {
                 onMouseEnter={() => setHoveredItem(item)}
                 onMouseLeave={() => setHoveredItem(null)}
                 className={`relative text-[10px] lg:text-[11px] font-semibold tracking-[0.16em] font-sans px-3.5 py-1 rounded-full transition-colors duration-300 whitespace-nowrap ${
-                  isActive ? 'text-[#eca501] hover:text-[#eca501]' : 'text-stone-300 hover:text-[#eca501]'
+                  isActive ? 'text-[#eca501] hover:text-black' : 'text-stone-300 hover:text-black'
                 }`}
               >
                 <span className="relative z-10">{item}</span>
@@ -1257,18 +1308,29 @@ export default function App() {
             {/* Hero Landing of the About Us Page - Displaying the dynamic background video */}
             <section id="about-landing" className="relative w-full h-screen bg-white flex flex-col justify-end overflow-hidden pb-12 sm:pb-16 md:pb-24 px-6 sm:px-12 md:px-24">
               <div className="absolute inset-0 w-full h-full z-0 flex items-center justify-center bg-white">
-                <video
-                  id="about-bg-video-player"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  poster={aboutLandingHero}
-                  className="w-full h-full object-cover max-w-full block select-none pointer-events-none opacity-100"
-                >
-                  <source src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/v1/kling_20260618_VIDEO__Cyberpunk_1425_0_auizto.mp4")} type="video/mp4" />
-                  <source src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/kling_20260618_VIDEO__Cyberpunk_1425_0_auizto.mp4")} type="video/mp4" />
-                </video>
+                {isMobile ? (
+                  <img
+                    id="about-bg-video-player"
+                    src={aboutLandingHero}
+                    alt="Victor Ohene Asamoah - Creative Direction"
+                    fetchPriority="high"
+                    className="w-full h-full object-cover max-w-full block select-none pointer-events-none opacity-100"
+                    referrerPolicy="no-referrer"
+                  />
+                ) : (
+                  <video
+                    id="about-bg-video-player"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    poster={aboutLandingHero}
+                    className="w-full h-full object-cover max-w-full block select-none pointer-events-none opacity-100"
+                  >
+                    <source src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/v1/kling_20260618_VIDEO__Cyberpunk_1425_0_auizto.mp4", 1280)} type="video/mp4" />
+                    <source src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/kling_20260618_VIDEO__Cyberpunk_1425_0_auizto.mp4", 1280)} type="video/mp4" />
+                  </video>
+                )}
               </div>
 
               {/* Giant looping scrolling background name on About Page - Translucent Gold, at the bottom with growth scale */}
@@ -1508,16 +1570,28 @@ export default function App() {
             <section id="motion-hero" className="w-full min-h-[500px] sm:min-h-[600px] px-6 sm:px-12 md:px-24 relative z-10 flex flex-col justify-end items-center select-none overflow-hidden rounded-b-[2rem] border-b border-zinc-200/80 shadow-2xl pb-16 sm:pb-20 pt-44">
               {/* Cinematic Video Background inside Hero container */}
               <div className="absolute inset-0 w-full h-full z-0 flex items-center justify-center bg-white">
-                <video
-                  id="motion-hero-bg-video-player"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="w-full h-full object-cover max-w-full block select-none pointer-events-none opacity-100"
-                >
-                  <source src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/v1781819816/kling_20260619_VIDEO_Two_futuri_1482_0_es8z02.mp4")} type="video/mp4" />
-                </video>
+                {isMobile ? (
+                  <img
+                    id="motion-hero-bg-video-player"
+                    src={getVideoPosterUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/v1781819816/kling_20260619_VIDEO_Two_futuri_1482_0_es8z02.mp4", 640)}
+                    alt="Victor Ohene Asamoah - Motion Design"
+                    fetchPriority="high"
+                    className="w-full h-full object-cover max-w-full block select-none pointer-events-none opacity-100"
+                    referrerPolicy="no-referrer"
+                  />
+                ) : (
+                  <video
+                    id="motion-hero-bg-video-player"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    poster={getVideoPosterUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/v1781819816/kling_20260619_VIDEO_Two_futuri_1482_0_es8z02.mp4", 1280)}
+                    className="w-full h-full object-cover max-w-full block select-none pointer-events-none opacity-100"
+                  >
+                    <source src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/v1781819816/kling_20260619_VIDEO_Two_futuri_1482_0_es8z02.mp4", 1280)} type="video/mp4" />
+                  </video>
+                )}
                 {/* Micro-faint gradient overlay just for text contrast */}
                 <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/50 via-black/15 to-transparent pointer-events-none z-0" />
               </div>
@@ -1682,18 +1756,30 @@ export default function App() {
           >
             {/* Hero Section */}
             <section id="home" className="relative w-full flex-1 flex flex-col overflow-hidden bg-[#FAF7F2] min-h-screen">
-             {/* Background Video with Full-Width Immersive Cover - Absolute positioning relative to #home section */}
+              {/* Background Video or Poster Image with Full-Width Immersive Cover */}
               <div id="bg-video-container" className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
-                <video
-                  id="bg-video-player"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="absolute inset-0 h-full w-full object-cover opacity-100"
-                >
-                  <source src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/v1781784482/kling_20260618_VIDEO_Static_cam_1419_0_ozbfdr.mp4")} type="video/mp4" />
-                </video>
+                {isMobile ? (
+                  <img
+                    id="bg-video-player"
+                    src={getVideoPosterUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/v1781784482/kling_20260618_VIDEO_Static_cam_1419_0_ozbfdr.mp4", 640)}
+                    alt="Victor Ohene Asamoah - Creative Portfolio"
+                    fetchPriority="high"
+                    className="absolute inset-0 h-full w-full object-cover opacity-100"
+                    referrerPolicy="no-referrer"
+                  />
+                ) : (
+                  <video
+                    id="bg-video-player"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    poster={getVideoPosterUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/v1781784482/kling_20260618_VIDEO_Static_cam_1419_0_ozbfdr.mp4", 1280)}
+                    className="absolute inset-0 h-full w-full object-cover opacity-100"
+                  >
+                    <source src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/v1781784482/kling_20260618_VIDEO_Static_cam_1419_0_ozbfdr.mp4", 1280)} type="video/mp4" />
+                  </video>
+                )}
 
                 {/* Giant looping scrolling background text */}
                 <div id="scrolling-bg-text-container" className="absolute bottom-0 left-0 right-0 w-full flex items-end pb-8 overflow-hidden z-[2] pointer-events-none">
@@ -1851,65 +1937,26 @@ export default function App() {
               </main>
             </section>
 
-            {/* Brand Logos Video Banner - Edge to Edge, Auto-playing, Looping, Pure Black */}
+            {/* Brand Logos Scrolling Banner - Edge to Edge, Looping, Pure Black */}
             <motion.section 
               id="brand-scrolling-banner" 
               initial={{ opacity: 0, y: 35 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.7 }}
-              className="w-full bg-black relative z-10 overflow-hidden py-4 border-b border-zinc-900/40"
+              className="w-full bg-black relative z-10 overflow-hidden py-6 border-b border-zinc-900/40"
             >
-              <div id="video-container" className="w-full bg-black flex overflow-hidden">
-                <div className="animate-marquee-rtl flex flex-row w-max flex-nowrap gap-0">
-                  <video
-                    className="h-14 sm:h-20 md:h-24 lg:h-28 xl:h-32 w-auto aspect-[1578/270] flex-shrink-0 object-cover block bg-black"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    controls={false}
-                    style={{ pointerEvents: 'none' }}
-                  >
-                    <source src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/role_vtobve.mp4")} type="video/mp4" />
-                    <source src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/v1/role_vtobve.mp4")} type="video/mp4" />
-                  </video>
-                  <video
-                    className="h-14 sm:h-20 md:h-24 lg:h-28 xl:h-32 w-auto aspect-[1578/270] flex-shrink-0 object-cover block bg-black"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    controls={false}
-                    style={{ pointerEvents: 'none' }}
-                  >
-                    <source src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/role_vtobve.mp4")} type="video/mp4" />
-                    <source src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/v1/role_vtobve.mp4")} type="video/mp4" />
-                  </video>
-                  <video
-                    className="h-14 sm:h-20 md:h-24 lg:h-28 xl:h-32 w-auto aspect-[1578/270] flex-shrink-0 object-cover block bg-black"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    controls={false}
-                    style={{ pointerEvents: 'none' }}
-                  >
-                    <source src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/role_vtobve.mp4")} type="video/mp4" />
-                    <source src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/v1/role_vtobve.mp4")} type="video/mp4" />
-                  </video>
-                  <video
-                    className="h-14 sm:h-20 md:h-24 lg:h-28 xl:h-32 w-auto aspect-[1578/270] flex-shrink-0 object-cover block bg-black"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    controls={false}
-                    style={{ pointerEvents: 'none' }}
-                  >
-                    <source src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/role_vtobve.mp4")} type="video/mp4" />
-                    <source src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/v1/role_vtobve.mp4")} type="video/mp4" />
-                  </video>
+              <div id="logos-container" className="w-full bg-black flex overflow-hidden py-2">
+                <div className="animate-marquee-rtl flex flex-row w-max flex-nowrap gap-0 items-center">
+                  {[...BRAND_LOGOS, ...BRAND_LOGOS].map((logo, idx) => (
+                    <img
+                      key={idx}
+                      src={logo}
+                      alt={`Brand Logo ${idx + 1}`}
+                      className="h-14 sm:h-18 md:h-22 lg:h-26 w-auto object-contain mx-4 sm:mx-6 md:mx-8 pointer-events-none select-none opacity-80 hover:opacity-100 transition-opacity duration-300"
+                      referrerPolicy="no-referrer"
+                    />
+                  ))}
                 </div>
               </div>
             </motion.section>
@@ -1967,11 +2014,8 @@ export default function App() {
                   transition={{ duration: 0.6 }}
                   className="text-center"
                 >
-                  <span className="text-[10px] md:text-xs font-mono tracking-[0.25em] text-zinc-500 uppercase font-bold">
-                    -- SELECTED PORTFOLIO GEMS --
-                  </span>
                   <h2 className="text-2xl sm:text-3xl font-display font-black tracking-tight text-zinc-900 mt-2 uppercase">
-                    Selected Works
+                    SELECTED PORTFOLIO GEMS
                   </h2>
                 </motion.div>
               </div>
@@ -2086,7 +2130,8 @@ export default function App() {
                       loop
                       muted
                       autoPlay
-                      src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/v1781780247/Unity_Cup_Animation_h8zcxg.mp4")}
+                      poster={getVideoPosterUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/v1781780247/Unity_Cup_Animation_h8zcxg.mp4", isMobile ? 640 : 1080)}
+                      src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/v1781780247/Unity_Cup_Animation_h8zcxg.mp4", isMobile ? 640 : 1080)}
                     />
                   </motion.div>
                 </div>
