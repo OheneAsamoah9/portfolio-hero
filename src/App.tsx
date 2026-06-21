@@ -1003,7 +1003,7 @@ export default function App() {
 
   // Initialize and load the loop music
   useEffect(() => {
-    const audio = new Audio("https://res.cloudinary.com/dqjxpupx7/video/upload/v1781876785/vhQ6Obv2R_Q-0c5a9f896effbf4f8b4634356818ead8727_agodvi.mp3");
+    const audio = new Audio("https://res.cloudinary.com/dqjxpupx7/video/upload/v1782067032/song_for_site_xwyff8.mp3");
     audio.loop = true;
     audio.volume = 0.15; // Soft afrobeat background volume
     audioRef.current = audio;
