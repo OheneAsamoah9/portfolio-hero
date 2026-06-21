@@ -635,7 +635,7 @@ const InteractiveDisciplines: React.FC = () => {
                      }}
                      className="text-lg sm:text-xl md:text-2xl font-display font-black tracking-wider uppercase select-none"
                   >
-                    {item}
+                     {item}
                   </span>
                   <span 
                      style={{ 
@@ -1705,27 +1705,34 @@ export default function App() {
             <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,rgba(168,85,247,0.04)_0%,transparent_70%)] pointer-events-none" />
             <section id="contact-main" className="w-full pt-4 pb-16 px-6 sm:px-12 md:px-24 relative z-10 flex flex-col items-center select-none flex-1">
               <div className="max-w-5xl w-full mx-auto">
+                {/* Header Information (Top Full-width) */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6 }}
+                  className="w-full mb-10"
+                >
+                  <span className="text-[10px] font-mono tracking-[0.25em] text-[#A855F7] uppercase font-bold">
+                    GET IN TOUCH // DIRECT LINE
+                  </span>
+                  <h1 className="text-zinc-900 text-3xl sm:text-4xl md:text-5xl font-display font-black tracking-tight uppercase mt-3 leading-tight font-sans">
+                    LET'S SPARK SOMETHING
+                  </h1>
+                  <p className="text-zinc-600 text-sm sm:text-base mt-2.5 leading-relaxed font-mono max-w-3xl">
+                    Whether you have a commercial campaign, motion project, spatial branding enquiry or general agency outreach, reach out directly.
+                  </p>
+                </motion.div>
+
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-                  {/* Left Column: Get in Touch & Contact Form */}
+                  {/* Left Column: Contact Form */}
                   <motion.div 
                     initial={{ opacity: 0, y: 35 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
-                    className="lg:col-span-7 flex flex-col gap-8 w-full"
+                    className="lg:col-span-7 w-full"
                   >
-                    <div>
-                      <span className="text-[10px] font-mono tracking-[0.25em] text-[#A855F7] uppercase font-bold">
-                        GET IN TOUCH // DIRECT LINE
-                      </span>
-                      <h1 className="text-zinc-900 text-3xl sm:text-4xl md:text-5xl font-display font-black tracking-tight uppercase mt-3 leading-tight font-sans">
-                        LET'S SPARK SOMETHING
-                      </h1>
-                      <p className="text-zinc-600 text-sm sm:text-base mt-2.5 leading-relaxed font-mono">
-                        Whether you have a commercial campaign, motion project, spatial branding enquiry or general agency outreach, reach out directly.
-                      </p>
-                    </div>
-
                     <div id="contact-form-container" className="w-full select-text">
                       <ContactForm />
                     </div>
@@ -1739,14 +1746,14 @@ export default function App() {
                     transition={{ duration: 0.6, delay: 0.1 }}
                     className="lg:col-span-5 w-full lg:sticky lg:top-28"
                   >
-                    <div className="bg-zinc-50 border border-zinc-200 rounded-2xl p-6 sm:p-8 flex flex-col gap-6 backdrop-blur-md shadow-lg relative overflow-hidden group hover:border-[#A855F7]/20 transition-colors">
+                    <div className="bg-zinc-50 border border-zinc-200 rounded-2xl p-6 sm:p-10 flex flex-col gap-6 backdrop-blur-md shadow-lg relative overflow-hidden group hover:border-[#A855F7]/20 transition-colors">
                       <div className="absolute top-0 right-0 w-32 h-32 bg-[#A855F7]/5 rounded-full blur-3xl pointer-events-none group-hover:bg-[#A855F7]/10 transition-colors" />
                       
-                      <div className="flex flex-col gap-1">
+                      <div className="flex flex-col gap-2">
                         <span className="text-[10px] font-mono tracking-widest text-[#A855F7] uppercase font-bold">DIRECT MAIL :</span>
                         <a 
                           href="mailto:asamoahvictor12@gmail.com" 
-                          className="text-zinc-800 hover:text-[#A855F7] text-base md:text-lg font-semibold font-sans flex items-center gap-2 transition-colors duration-200 mt-1 cursor-pointer select-text"
+                          className="text-zinc-800 hover:text-[#A855F7] text-base md:text-lg font-semibold font-sans flex items-center gap-2 transition-colors duration-200 cursor-pointer select-text"
                         >
                           <Mail size={16} /> asamoahvictor12@gmail.com
                         </a>
