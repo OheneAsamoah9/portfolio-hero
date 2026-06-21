@@ -635,7 +635,7 @@ const InteractiveDisciplines: React.FC = () => {
                      }}
                      className="text-lg sm:text-xl md:text-2xl font-display font-black tracking-wider uppercase select-none"
                   >
-                     {item}
+                    {item}
                   </span>
                   <span 
                      style={{ 
@@ -994,6 +994,7 @@ export default function App() {
   const [selectedMotionItem, setSelectedMotionItem] = useState<MotionItem | null>(null);
   const [hoveredAppIndex, setHoveredAppIndex] = useState<number | null>(null);
   const [hoveredAIPlatformIndex, setHoveredAIPlatformIndex] = useState<number | null>(null);
+  const [hoveredPersonalIndex, setHoveredPersonalIndex] = useState<number | null>(null);
   const menuItems = ['HOME', 'ABOUT ME', 'MOTION', 'CONTACT'];
 
   // Background music audio controllers
@@ -1007,7 +1008,7 @@ export default function App() {
     audio.volume = 0.15; // Soft afrobeat background volume
     audioRef.current = audio;
 
-    // Trigger immediate play if already supported/interacted
+    // Trigger immediate play if already interacted
     audio.play().then(() => {
       setIsPlayingMusic(true);
     }).catch(() => {
@@ -1529,6 +1530,59 @@ export default function App() {
                           <div>
                             <h4 className="text-zinc-800 font-display font-semibold text-sm tracking-wide group-hover:text-[#A855F7] transition-colors duration-200">{platform.name}</h4>
                             <p className="text-zinc-500 text-[10px] font-mono leading-normal mt-1">{platform.desc}</p>
+                          </div>
+                        </motion.div>
+                      );
+                    })}
+                  </div>
+                </motion.div>
+
+                {/* Personal Gallery Section */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 35 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.7 }}
+                  className="w-full border-t border-zinc-200/80 pt-16"
+                >
+                  <span className="text-[10px] font-mono tracking-[0.25em] text-[#A855F7] uppercase font-bold block mb-8">
+                    BEYOND DESIGN // PERSONAL PLOTS
+                  </span>
+                  <div 
+                    id="personal-gallery" 
+                    className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+                    onMouseLeave={() => setHoveredPersonalIndex(null)}
+                  >
+                    {[
+                      { name: "Football Lover", tag: "SPORTS & FOCUS", url: "https://i.im.ge/QMPM5Or/Football_Lover.jpg" },
+                      { name: "Gym Enthusiast", tag: "STRENGTH & GRIT", url: "https://res.cloudinary.com/dqjxpupx7/image/upload/v1782038207/Gym_Enthusiast_usv4ip.jpg" },
+                      { name: "Friendly & Funny", tag: "VIBES & CONNECTIONS", url: "https://i.im.ge/QMPM9jW/Friendly_and_funny.jpg" },
+                      { name: "Music Lover", tag: "RHYTHM & FLOW", url: "https://res.cloudinary.com/dqjxpupx7/image/upload/v1782038215/Music_Lover_wjtmb4.jpg" }
+                    ].map((item, idx) => {
+                      const isHovered = hoveredPersonalIndex === idx;
+                      const scale = isHovered ? 1.05 : 1.0;
+                      const yOffset = isHovered ? -4 : 0;
+                      
+                      return (
+                        <motion.div
+                          key={item.name}
+                          onMouseEnter={() => setHoveredPersonalIndex(idx)}
+                          animate={{ scale, y: yOffset }}
+                          transition={{ type: "spring", stiffness: 350, damping: 22 }}
+                          className="relative aspect-[3/4] overflow-hidden bg-white border border-zinc-200/60 hover:border-[#A855F7]/40 rounded-2xl cursor-pointer shadow-sm group"
+                          style={{ zIndex: isHovered ? 30 : 10 }}
+                        >
+                          <img 
+                            src={item.url} 
+                            alt={item.name} 
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out select-none" 
+                            referrerPolicy="no-referrer"
+                            loading="lazy"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/45 to-transparent z-10 opacity-75 group-hover:opacity-85 transition-opacity duration-300 pointer-events-none" />
+                          <div className="absolute bottom-5 left-5 right-5 z-20 flex flex-col gap-1.5 text-left pointer-events-none">
+                            <span className="text-[9px] font-mono tracking-widest text-[#A855F7] uppercase font-bold">{item.tag}</span>
+                            <h4 className="text-white font-display font-semibold text-base uppercase tracking-wide">{item.name}</h4>
                           </div>
                         </motion.div>
                       );
