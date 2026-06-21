@@ -458,6 +458,7 @@ const ContactForm: React.FC = () => {
       </div>
 
       <button
+        id="dispatch-btn"
         type="submit"
         disabled={isSubmitting}
         className="w-full bg-[#A855F7] hover:bg-[#A855F7]/90 disabled:bg-zinc-200 disabled:text-zinc-400 text-white font-sans text-xs font-bold tracking-widest uppercase py-4 rounded-xl shadow-lg transition-all duration-300 hover:scale-[1.01] flex items-center justify-center gap-2 cursor-pointer mt-2"
@@ -628,20 +629,20 @@ const InteractiveDisciplines: React.FC = () => {
               {disciplines.map((item, idx) => (
                 <div key={idx} className="flex items-center flex-nowrap">
                   <span 
-                    style={{ 
-                      color: isHovered ? '#FFFFFF' : '#18181B',
-                      transition: 'color 0.3s ease-in-out'
-                    }}
-                    className="text-lg sm:text-xl md:text-2xl font-display font-black tracking-wider uppercase select-none"
+                     style={{ 
+                       color: isHovered ? '#FFFFFF' : '#18181B',
+                       transition: 'color 0.3s ease-in-out'
+                     }}
+                     className="text-lg sm:text-xl md:text-2xl font-display font-black tracking-wider uppercase select-none"
                   >
                     {item}
                   </span>
                   <span 
-                    style={{ 
-                      color: isHovered ? '#FFFFFF' : '#A855F7',
-                      transition: 'color 0.3s ease-in-out'
-                    }}
-                    className="text-lg sm:text-xl md:text-2xl font-display font-black mx-6 select-none"
+                     style={{ 
+                       color: isHovered ? '#FFFFFF' : '#A855F7',
+                       transition: 'color 0.3s ease-in-out'
+                     }}
+                     className="text-lg sm:text-xl md:text-2xl font-display font-black mx-6 select-none"
                   >
                     •
                   </span>
@@ -842,6 +843,8 @@ const CustomCursor: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isOverNavbar, setIsOverNavbar] = useState(false);
   const [isOverFooter, setIsOverFooter] = useState(false);
+  const [isOverBrandBanner, setIsOverBrandBanner] = useState(false);
+  const [isOverDispatchBtn, setIsOverDispatchBtn] = useState(false);
 
   useEffect(() => {
     // Add custom cursor class to html element
@@ -853,6 +856,8 @@ const CustomCursor: React.FC = () => {
       const target = e.target as HTMLElement;
       setIsOverNavbar(!!(target && target.closest("#main-header")));
       setIsOverFooter(!!(target && target.closest("footer")));
+      setIsOverBrandBanner(!!(target && target.closest("#brand-scrolling-banner")));
+      setIsOverDispatchBtn(!!(target && target.closest("#dispatch-btn")));
     };
 
     const handleMouseLeave = () => {
@@ -872,6 +877,8 @@ const CustomCursor: React.FC = () => {
       const target = e.target as HTMLElement;
       setIsOverNavbar(!!(target && target.closest("#main-header")));
       setIsOverFooter(!!(target && target.closest("footer")));
+      setIsOverBrandBanner(!!(target && target.closest("#brand-scrolling-banner")));
+      setIsOverDispatchBtn(!!(target && target.closest("#dispatch-btn")));
       if (
         target &&
         (target.tagName === "A" ||
@@ -938,8 +945,8 @@ const CustomCursor: React.FC = () => {
 
   if (!isVisible) return null;
 
-  // Custom Cursor color: Purple matching the brand accent, turns black over footer for contrast
-  const cursorColor = isOverFooter ? "#000000" : "#A855F7";
+  // Custom Cursor color: Purple matching the brand accent, turns black over footer, brand banner, and dispatch button
+  const cursorColor = (isOverFooter || isOverBrandBanner || isOverDispatchBtn) ? "#000000" : "#A855F7";
 
   return (
     <>
@@ -979,6 +986,7 @@ const CustomCursor: React.FC = () => {
 
 export default function App() {
   const isMobile = useIsMobile();
+  const [isBrandHovered, setIsBrandHovered] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const [selectedItem, setSelectedItem] = useState<PortfolioItem | null>(null);
@@ -1964,10 +1972,19 @@ export default function App() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.7 }}
-              className="w-full bg-black relative z-10 overflow-hidden py-6 border-b border-zinc-900/40"
+              onMouseEnter={() => setIsBrandHovered(true)}
+              onMouseLeave={() => setIsBrandHovered(false)}
+              className={`w-full relative z-10 overflow-hidden py-6 border-b border-zinc-900/40 transition-colors duration-300 ${
+                isBrandHovered ? 'bg-[#A855F7]' : 'bg-black'
+              }`}
             >
-              <div id="logos-container" className="w-full bg-black flex overflow-hidden py-2">
-                <div className="animate-marquee-rtl flex flex-row w-max flex-nowrap gap-0 items-center">
+              <div 
+                id="logos-container" 
+                className={`w-full flex overflow-hidden py-2 transition-colors duration-300 ${
+                  isBrandHovered ? 'bg-[#A855F7]' : 'bg-black'
+                }`}
+              >
+                <div className="animate-marquee-rtl-nonpause flex flex-row w-max flex-nowrap gap-0 items-center">
                   {[...BRAND_LOGOS, ...BRAND_LOGOS].map((logo, idx) => (
                     <img
                       key={idx}

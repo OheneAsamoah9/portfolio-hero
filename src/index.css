@@ -42,6 +42,12 @@
   animation: marquee-ltr 28s linear infinite;
 }
 
+.animate-marquee-rtl-nonpause {
+  display: flex;
+  width: max-content;
+  animation: marquee-rtl 28s linear infinite;
+}
+
 .animate-marquee-ltr:hover,
 .animate-marquee-rtl:hover {
   animation-play-state: paused;
