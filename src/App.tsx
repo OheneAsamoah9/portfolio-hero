@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Instagram, Linkedin, Menu, X, ArrowUpRight, Mail, Sparkles, CheckCircle2, Copy, Check, ArrowUp, Play, Volume2, VolumeX } from "lucide-react";
+import { Instagram, Linkedin, Menu, X, ArrowUpRight, Mail, Sparkles, CheckCircle2, Copy, Check, ArrowUp, Play } from "lucide-react";
 const starAssuranceCampaign = "https://i.im.ge/QM6X86m/Star_Assurance_-If_you_don_t_have_to.jpg";
 import aboutLandingHero from "./assets/images/about_landing_hero_1781729710083.jpg";
 
@@ -1013,103 +1013,7 @@ export default function App() {
   const [hoveredPersonalIndex, setHoveredPersonalIndex] = useState<number | null>(null);
   const menuItems = ['HOME', 'ABOUT ME', 'MOTION', 'CONTACT'];
 
-  // Background music audio controllers
-  const [isPlayingMusic, setIsPlayingMusic] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Initialize and load the loop music
-  useEffect(() => {
-    const audio = new Audio("https://res.cloudinary.com/dqjxpupx7/video/upload/v1782067032/song_for_site_xwyff8.mp3");
-    audio.loop = true;
-    audio.volume = 0.15; // Soft afrobeat background volume
-    audioRef.current = audio;
-
-    // Trigger immediate play if already interacted
-    audio.play().then(() => {
-      setIsPlayingMusic(true);
-    }).catch(() => {
-      console.log("Autoplay waiting for first physical user interaction...");
-    });
-
-    // Trigger on first click or drag/scroll due to strict global browser block policies
-    const playOnFirstInteraction = () => {
-      if (audio.paused) {
-        audio.play().then(() => {
-          setIsPlayingMusic(true);
-        }).catch((err) => {
-          console.log("Autoplay block waiting for interaction:", err);
-        });
-      }
-      document.removeEventListener('mousedown', playOnFirstInteraction);
-      document.removeEventListener('click', playOnFirstInteraction);
-      document.removeEventListener('touchstart', playOnFirstInteraction);
-      document.removeEventListener('scroll', playOnFirstInteraction);
-    };
-
-    document.addEventListener('mousedown', playOnFirstInteraction);
-    document.addEventListener('click', playOnFirstInteraction);
-    document.addEventListener('touchstart', playOnFirstInteraction);
-    document.addEventListener('scroll', playOnFirstInteraction);
-
-    return () => {
-      audio.pause();
-      document.removeEventListener('mousedown', playOnFirstInteraction);
-      document.removeEventListener('click', playOnFirstInteraction);
-      document.removeEventListener('touchstart', playOnFirstInteraction);
-      document.removeEventListener('scroll', playOnFirstInteraction);
-    };
-  }, []);
-
-  // Handle visibility changes (tab switches) to pause/play background music
-  useEffect(() => {
-    if (!audioRef.current) return;
-    const audio = audioRef.current;
-
-    const handleVisibilityChange = () => {
-      if (document.hidden) {
-        audio.pause();
-      } else {
-        if (isPlayingMusic && !selectedMotionItem) {
-          audio.play().catch((err) => console.log("Failed to resume visibility:", err));
-        }
-      }
-    };
-
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-
-    return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-    };
-  }, [isPlayingMusic, selectedMotionItem]);
-
-  // Control pause/unpause based on whether a video modal is active
-  useEffect(() => {
-    if (!audioRef.current) return;
-
-    if (selectedMotionItem) {
-      audioRef.current.pause();
-    } else {
-      if (isPlayingMusic) {
-        audioRef.current.play().catch((err) => {
-          console.log("Could not play on motion close:", err);
-        });
-      }
-    }
-  }, [selectedMotionItem, isPlayingMusic]);
-
-  const toggleMusic = () => {
-    if (!audioRef.current) return;
-    if (isPlayingMusic) {
-      audioRef.current.pause();
-      setIsPlayingMusic(false);
-    } else {
-      audioRef.current.play().then(() => {
-        setIsPlayingMusic(true);
-      }).catch((err) => {
-        console.log("Music play failed:", err);
-      });
-    }
-  };
 
   const [currentView, setCurrentView] = useState<'home' | 'about' | 'motion' | 'contact'>(() => {
     const searchParams = new URLSearchParams(window.location.search);
@@ -2445,44 +2349,7 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* Floating Ambient Background Music Controller Widget */}
-      <div className="fixed bottom-6 left-6 z-[90] flex items-center gap-2 select-none">
-        <button
-          id="ambient-music-toggle"
-          onClick={toggleMusic}
-          className="w-10 h-10 rounded-full bg-white border border-zinc-200 flex items-center justify-center text-zinc-800 hover:text-white hover:bg-[#A855F7] hover:border-[#A855F7] shadow-lg cursor-pointer transition-all duration-300 active:scale-95"
-          aria-label={isPlayingMusic ? "Pause background music" : "Play background music"}
-        >
-          {isPlayingMusic && !selectedMotionItem ? <Volume2 size={16} /> : <VolumeX size={16} />}
-        </button>
-        
-        {/* Animated Sound Equalizer Status Ribbon */}
-        <div className="bg-white border border-zinc-200 px-2.5 py-1.5 rounded-full flex items-center gap-2 text-[10px] font-mono text-zinc-600 select-none shadow-md">
-          <span className="text-[9px] uppercase tracking-wider font-bold text-zinc-500">AMBIENT SOUND:</span>
-          {isPlayingMusic && !selectedMotionItem ? (
-            <div className="flex items-end gap-[2px] h-2.5 w-3.5">
-              <style>{`
-                @keyframes eq-scale {
-                  0%, 100% { transform: scaleY(0.3); }
-                  50% { transform: scaleY(1); }
-                }
-                .eq-bar-1 { animation: eq-scale 0.7s ease-in-out infinite; transform-origin: bottom; }
-                .eq-bar-2 { animation: eq-scale 0.5s ease-in-out infinite 0.15s; transform-origin: bottom; }
-                .eq-bar-3 { animation: eq-scale 0.8s ease-in-out infinite 0.3s; transform-origin: bottom; }
-              `}</style>
-              <span className="w-[2px] h-full bg-[#A855F7] rounded-full eq-bar-1" />
-              <span className="w-[2px] h-full bg-[#A855F7] rounded-full eq-bar-2" />
-              <span className="w-[2px] h-full bg-[#A855F7] rounded-full eq-bar-3" />
-            </div>
-          ) : (
-            <div className="flex items-end gap-[2px] h-2.5 w-3.5 opacity-40">
-              <span className="w-[2px] h-[3px] bg-zinc-400 rounded-full" />
-              <span className="w-[2px] h-[5px] bg-zinc-400 rounded-full" />
-              <span className="w-[2px] h-[2px] bg-zinc-400 rounded-full" />
-            </div>
-          )}
-        </div>
-      </div>
+
     </div>
   );
 }
