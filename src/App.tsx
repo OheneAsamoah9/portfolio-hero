@@ -317,7 +317,7 @@ const InteractiveBox: React.FC<{ item: PortfolioItem; index: number; className?:
     >
       <motion.img
         id={`portfolio-img-${item.id}`}
-        src={item.imageUrl}
+        src={getOptimizedImageUrl(item.imageUrl, 500)}
         alt={item.title}
         referrerPolicy="no-referrer"
         loading="lazy"
@@ -605,7 +605,6 @@ const InteractiveDisciplines: React.FC = () => {
     "Graphic Design",
     "Motion Design",
     "Art Direction",
-    "Vibe Coding",
     "Print Design",
     "Website"
   ];
@@ -688,6 +687,23 @@ const getVideoPosterUrl = (url: string, width?: number) => {
       .replace(/\.mp4$/i, '.jpg');
   }
   return undefined;
+};
+
+const getOptimizedImageUrl = (url: string, width: number = 600) => {
+  if (!url) return "";
+  
+  // If it's already a Cloudinary image, use Cloudinary's built-in optimization
+  if (url.includes("res.cloudinary.com")) {
+    if (url.includes("/upload/f_auto") || url.includes("/upload/q_auto") || url.includes("/upload/c_")) {
+      return url;
+    }
+    // Replace "/image/upload/" with "/image/upload/f_auto,q_auto,w_xxx,c_scale/"
+    const transformation = `f_auto,q_auto,w_${width},c_scale/`;
+    return url.replace("/image/upload/", `/image/upload/${transformation}`);
+  }
+  
+  // For other external hosts (like im.ge), use images.weserv.nl for compression and resizing
+  return `https://images.weserv.nl/?url=${encodeURIComponent(url)}&w=${width}&q=80&output=webp`;
 };
 
 interface MotionCardProps {
@@ -1505,7 +1521,7 @@ export default function App() {
                       { name: "ChatGPT", desc: "Image generation and research", logo: "https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg" },
                       { name: "Flow AI", desc: "Video and Image Generation", logo: "https://i.im.ge/QM6OZB4/flow_ai-t600.webp" },
                       { name: "Claude", desc: "Image generation and research", logo: "https://i.im.ge/QM6O8XM/claude_logo-t600.webp" },
-                      { name: "Google AI Studio", desc: "Vibe Coding", logo: "https://i.im.ge/QM6OWbD/google_ai_studio-t600.webp" }
+                      { name: "Google AI Studio", desc: "AI development and research", logo: "https://i.im.ge/QM6OWbD/google_ai_studio-t600.webp" }
                     ].map((platform, idx) => {
                       const isHovered = hoveredAIPlatformIndex === idx;
                       
@@ -1522,7 +1538,7 @@ export default function App() {
                           style={{ zIndex: isHovered ? 30 : 10 }}
                         >
                           <img 
-                            src={platform.logo} 
+                            src={getOptimizedImageUrl(platform.logo, 80)} 
                             alt={`${platform.name} Logo`} 
                             className="w-10 h-10 rounded-xl object-contain bg-zinc-100 p-1.5 group-hover:scale-110 transition-transform duration-300 select-none" 
                             referrerPolicy="no-referrer"
@@ -1620,7 +1636,7 @@ export default function App() {
                                 }}
                               >
                                 <img 
-                                  src={item.url} 
+                                  src={getOptimizedImageUrl(item.url, 600)} 
                                   alt={item.name} 
                                   className="w-full h-full object-cover select-none" 
                                   referrerPolicy="no-referrer"
@@ -1638,7 +1654,7 @@ export default function App() {
                                 }}
                               >
                                 <img 
-                                  src={item.backUrl} 
+                                  src={getOptimizedImageUrl(item.backUrl, 600)} 
                                   alt={item.name} 
                                   className="w-full h-full object-cover filter grayscale contrast-125 brightness-100 select-none" 
                                   referrerPolicy="no-referrer"
@@ -2129,7 +2145,7 @@ export default function App() {
                   {[...BRAND_LOGOS, ...BRAND_LOGOS].map((logo, idx) => (
                     <img
                       key={idx}
-                      src={logo}
+                      src={getOptimizedImageUrl(logo, 200)}
                       alt={`Brand Logo ${idx + 1}`}
                       className="h-14 sm:h-18 md:h-22 lg:h-26 w-auto object-contain mx-4 sm:mx-6 md:mx-8 pointer-events-none select-none opacity-80 hover:opacity-100 transition-opacity duration-300"
                       referrerPolicy="no-referrer"
@@ -2362,7 +2378,7 @@ export default function App() {
             >
               <img
                 id="lightbox-image"
-                src={selectedItem.imageUrl}
+                src={getOptimizedImageUrl(selectedItem.imageUrl, 1200)}
                 alt={selectedItem.title}
                 referrerPolicy="no-referrer"
                 className="max-w-full max-h-[92vh] md:max-h-[94vh] w-auto h-auto object-contain block select-none rounded-[14px]"
