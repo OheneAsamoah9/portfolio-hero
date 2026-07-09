@@ -28,28 +28,28 @@ const MOTION_ITEMS: MotionItem[] = [
   {
     id: "motion-1",
     title: "UNITY MOTION INTRO",
-    videoUrl: "https://res.cloudinary.com/dqjxpupx7/video/upload/v1781780247/Unity_Cup_Animation_h8zcxg.mp4",
+    videoUrl: "https://res.cloudinary.com/motzy3s4/video/upload/v1783621307/Unity_Cup_Animation_x0y7zw.mp4",
     category: "CGI PRODUCT DIRECTION",
     description: "A brand presentation animation for Sofa Lounge, showcasing its identity and vision. A brand based in China"
   },
   {
     id: "motion-2",
     title: "TIKTOK BEAT THE CLOCK",
-    videoUrl: "https://res.cloudinary.com/dqjxpupx7/video/upload/Tick_Tock_beat_the_clock_update_2_sz5wof.mp4",
+    videoUrl: "https://res.cloudinary.com/motzy3s4/video/upload/v1783621118/Tick_Tock_beat_the_clock_update_2_qpreoz.mp4",
     category: "CREATIVE MOTION GRAPHICS",
     description: "A fast-paced celebrity podcast where guests answer questions against the clock."
   },
   {
     id: "motion-3",
     title: "YFM OFF THE RECORD",
-    videoUrl: "https://res.cloudinary.com/dqjxpupx7/video/upload/v1781783292/YFM-Off_The_Record_Motion_iqw2ix.mp4",
+    videoUrl: "https://res.cloudinary.com/motzy3s4/video/upload/v1783621178/YFM-Off_The_Record_Motion_cl4fkk.mp4",
     category: "BRAND MOTION DESIGN",
     description: "A podcast focused on conversations around life, entertainment, and culture."
   },
   {
     id: "motion-4",
     title: "FRANCO VYBZ",
-    videoUrl: "https://drive.google.com/uc?export=download&id=1HW7wDUBqldvpMMZO2m5sTaOko1KuKiOD",
+    videoUrl: "https://res.cloudinary.com/motzy3s4/video/upload/v1783620790/Montage_Update_pfis2r.mp4",
     category: "CINEMATIC HIGHLIGHT EDIT",
     description: "A vibrant motion piece celebrating Francophone culture and entertainment."
   },
@@ -2228,8 +2228,8 @@ export default function App() {
                       loop
                       muted
                       autoPlay
-                      poster={getVideoPosterUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/v1781780247/Unity_Cup_Animation_h8zcxg.mp4", isMobile ? 640 : 1080)}
-                      src={getOptimizedVideoUrl("https://res.cloudinary.com/dqjxpupx7/video/upload/v1781780247/Unity_Cup_Animation_h8zcxg.mp4", isMobile ? 640 : 1080)}
+                      poster={getVideoPosterUrl("https://res.cloudinary.com/motzy3s4/video/upload/v1783621307/Unity_Cup_Animation_x0y7zw.mp4", isMobile ? 640 : 1080)}
+                      src={getOptimizedVideoUrl("https://res.cloudinary.com/motzy3s4/video/upload/v1783621307/Unity_Cup_Animation_x0y7zw.mp4", isMobile ? 640 : 1080)}
                     />
                   </motion.div>
                 </div>
