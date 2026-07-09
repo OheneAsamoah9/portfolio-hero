@@ -49,7 +49,7 @@ const MOTION_ITEMS: MotionItem[] = [
   {
     id: "motion-4",
     title: "FRANCO VYBZ",
-    videoUrl: "https://res.cloudinary.com/dqjxpupx7/video/upload/v1781783136/Franco_Vybz_Montage_update_hc0ztj.mp4",
+    videoUrl: "https://drive.google.com/uc?export=download&id=1HW7wDUBqldvpMMZO2m5sTaOko1KuKiOD",
     category: "CINEMATIC HIGHLIGHT EDIT",
     description: "A vibrant motion piece celebrating Francophone culture and entertainment."
   },
